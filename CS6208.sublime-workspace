@@ -1,0 +1,2112 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"bath",
+				"batch_size\tparam"
+			],
+			[
+				"input",
+				"input_sample_shape"
+			],
+			[
+				"flatt",
+				"flatten_out\tstatement"
+			],
+			[
+				"to",
+				"to_device"
+			],
+			[
+				"train_se",
+				"train_seq_samples\tstatement"
+			],
+			[
+				"seq_l",
+				"seq_len\tstatement"
+			],
+			[
+				"seq",
+				"seq_samples\tparam"
+			],
+			[
+				"train_re",
+				"train_record\tstatement"
+			],
+			[
+				"cop",
+				"copy_from_numpy"
+			],
+			[
+				"comp",
+				"compute_lr\tfunction"
+			],
+			[
+				"word_la",
+				"word_labels\tstatement"
+			],
+			[
+				"LA",
+				"LADS_Resources"
+			],
+			[
+				"sche",
+				"schemaMatcher"
+			],
+			[
+				"GetAnswe",
+				"GetAnswerDuration\tint GetAnswerDuration(int jobID, int qid)"
+			],
+			[
+				"cs",
+				"cs_platform"
+			],
+			[
+				"sub",
+				"submitted"
+			],
+			[
+				"qu",
+				"question_cost\tstatement"
+			],
+			[
+				"p",
+				"prepareMatchingQuestions\tstd::vector<dice::cs::BaseQuestion *> prepareMatchingQuestions(int jobID, const std::map<std::string, std::vector<std::string> > &candidateMatching, const DiceTable &wt1, const DiceTable &wt2)"
+			],
+			[
+				"mat",
+				"matching_question"
+			],
+			[
+				"get_i",
+				"get_qid\tint BaseQuestion::get_qid() const"
+			],
+			[
+				"relation",
+				"relation_name"
+			],
+			[
+				"pk2",
+				"pk2pos_\tstd::map<Field *, unsigned int> pk2pos_"
+			],
+			[
+				"getEx",
+				"getExampleTable1"
+			],
+			[
+				"siz",
+				"size_type"
+			],
+			[
+				"com",
+				"commit_id"
+			],
+			[
+				"maste",
+				"master_branch"
+			],
+			[
+				"mast",
+				"master_branch"
+			],
+			[
+				"IN",
+				"InsertTuple"
+			],
+			[
+				"COmm",
+				"CommitID"
+			],
+			[
+				"Set",
+				"SetFieldByIndex\tbool SetFieldByIndex(unsigned int index, ustore::relation::Field *new_field, std::string *msg)"
+			],
+			[
+				"new_b",
+				"new_branch"
+			],
+			[
+				"remove",
+				"removedInCommit"
+			],
+			[
+				"GetT",
+				"GetTupleNumber"
+			],
+			[
+				"comm",
+				"commited_page"
+			],
+			[
+				"ASSER",
+				"ASSERT_TRUE"
+			],
+			[
+				"Remo",
+				"RemoveTuple\tbool RemoveTuple(const ustore::relation::Field *pk, std::string *msg)"
+			],
+			[
+				"tu",
+				"tuple_num_\tunsigned int tuple_num_"
+			],
+			[
+				"GetS",
+				"GetPageSize\tsize_t GetPageSize() const"
+			],
+			[
+				"tup",
+				"tuple_presence\tboost::dynamic_bitset<> tuple_presence"
+			],
+			[
+				"SeF",
+				"SetFieldByIndex\tbool SetFieldByIndex(unsigned int index, ustore::relation::Field *new_field, std::string &msg)"
+			],
+			[
+				"relat",
+				"relation_name"
+			],
+			[
+				"new_br",
+				"new_branch_name"
+			],
+			[
+				"curr",
+				"current_branch"
+			],
+			[
+				"curre",
+				"current_branch"
+			],
+			[
+				"LOG",
+				"LOG_FATAL"
+			],
+			[
+				"cur",
+				"current_branch_name_\tstd::string current_branch_name_"
+			],
+			[
+				"new_tu",
+				"new_tuple_presence"
+			],
+			[
+				"ust",
+				"ustore_version"
+			],
+			[
+				"usto",
+				"ustore_value"
+			],
+			[
+				"last_co",
+				"last_commit_id"
+			],
+			[
+				"ustore",
+				"ustore_version"
+			],
+			[
+				"t",
+				"tuple_positions"
+			],
+			[
+				"commits",
+				"commit_ids"
+			],
+			[
+				"bran",
+				"branch_info"
+			],
+			[
+				"merg",
+				"merge_version"
+			],
+			[
+				"branch",
+				"branch_name1"
+			],
+			[
+				"inser",
+				"InsertTuple"
+			],
+			[
+				"us",
+				"UstoreHeapStorage"
+			],
+			[
+				"be",
+				"begin\titerator begin()"
+			],
+			[
+				"read",
+				"read_pages_\tstd::vector<Page *> read_pages_"
+			],
+			[
+				"page_si",
+				"page_size"
+			],
+			[
+				"sch",
+				"schema_"
+			],
+			[
+				"rela",
+				"relation_name_\tstd::string relation_name_"
+			],
+			[
+				"GetL",
+				"GetTupleSize"
+			],
+			[
+				"rel",
+				"relation_name_\tstd::string relation_name_"
+			],
+			[
+				"cl",
+				"client_\tustore::ClientService * client_"
+			],
+			[
+				"Commi",
+				"CommitID"
+			],
+			[
+				"fi",
+				"find_first\tsize_type find_first() const"
+			],
+			[
+				"commit",
+				"commit_record"
+			],
+			[
+				"base",
+				"base_branch_last_commitID"
+			],
+			[
+				"base_bra",
+				"base_branch_name"
+			],
+			[
+				"branc",
+				"branches_info_"
+			],
+			[
+				"COMM",
+				"CommitID"
+			],
+			[
+				"cu",
+				"current_branch_info_it"
+			],
+			[
+				"write",
+				"write_pages"
+			],
+			[
+				"re",
+				"read_pages_\tstd::vector<Page *> read_pages_"
+			],
+			[
+				"master",
+				"master_branch_name"
+			],
+			[
+				"U",
+				"UstoreHeapStorage\tUstoreHeapStorage"
+			],
+			[
+				"TUple",
+				"TupleDscp"
+			],
+			[
+				"Comm",
+				"commitID"
+			],
+			[
+				"Com",
+				"CommitID"
+			],
+			[
+				"vers",
+				"version_t"
+			],
+			[
+				"c",
+				"c_str"
+			],
+			[
+				"pre",
+				"pre_values"
+			],
+			[
+				"Clie",
+				"ClientTest"
+			],
+			[
+				"pre_v",
+				"pre_versions"
+			],
+			[
+				"SyncGet",
+				"SyncGetPreviousVersion"
+			],
+			[
+				"NULL",
+				"NULL_VERSION"
+			],
+			[
+				"val",
+				"value_t"
+			],
+			[
+				"n",
+				"namespace"
+			],
+			[
+				"Get",
+				"GetFieldByIndex\tustore::relation::Field * GetFieldByIndex(unsigned int index) const"
+			],
+			[
+				"fie",
+				"field_position"
+			],
+			[
+				"ASSET",
+				"ASSERT_EQ"
+			],
+			[
+				"Ge",
+				"GetFieldByIndex\tustore::relation::Field * GetFieldByIndex(unsigned int index) const"
+			],
+			[
+				"Tupl",
+				"TupleDscp"
+			],
+			[
+				"start",
+				"start_position_"
+			],
+			[
+				"Str",
+				"StrType"
+			],
+			[
+				"ge",
+				"getName"
+			],
+			[
+				"quest",
+				"question_stream\tostringstream"
+			],
+			[
+				"que",
+				"question_stream\tostringstream"
+			],
+			[
+				"ques",
+				"question_description\tstring"
+			],
+			[
+				"q",
+				"question_stream\tostringstream"
+			],
+			[
+				"Singl",
+				"SingleChoiceQuestion(int jobID, const std::string &title, const std::string &description, const std::string &question_html)\tconstructor"
+			],
+			[
+				"getCo",
+				"getColValues(string colHeader) const\tvector<string>"
+			],
+			[
+				"get",
+				"getColValues(string colHeader) const\tvector<string>"
+			],
+			[
+				"cs_",
+				"cs_platform_\tdice::cs::CSPlatform *"
+			],
+			[
+				"ans",
+				"answer\tstd::string"
+			],
+			[
+				"retr",
+				"retrieveAnswers"
+			],
+			[
+				"C",
+				"CSTask_Turk"
+			],
+			[
+				"questio",
+				"questionXML"
+			],
+			[
+				"db",
+				"sqliteDB"
+			],
+			[
+				"Tr",
+				"TurkManager"
+			],
+			[
+				"unp",
+				"unpostedQuestion"
+			],
+			[
+				"unP",
+				"unpostedQuestion"
+			],
+			[
+				"sql",
+				"sqlite_"
+			],
+			[
+				"Sq",
+				"SQLiteJDBC"
+			],
+			[
+				"SQli",
+				"SQLiteJDBC"
+			],
+			[
+				"creat",
+				"createStatement"
+			],
+			[
+				"opt",
+				"option_value\tstring"
+			],
+			[
+				"Qu",
+				"QuestionContent"
+			],
+			[
+				"Q",
+				"QuestionIdentifier"
+			],
+			[
+				"option",
+				"optionHTML"
+			],
+			[
+				"optio",
+				"option_node"
+			],
+			[
+				"get_qu",
+				"get_question_typeID() const\tint"
+			],
+			[
+				"question_",
+				"question_type_ID"
+			],
+			[
+				"question_type",
+				"get_question_typeID"
+			],
+			[
+				"Answer",
+				"AnswerStatus\tenum"
+			],
+			[
+				"Answe",
+				"AnswerStatus\tenum"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "train.py",
+			"settings":
+			{
+				"buffer_size": 7499,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "model.py",
+			"settings":
+			{
+				"buffer_size": 2947,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				"Run"
+			]
+		],
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/cpp_build.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Makefile/Make.sublime-build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					"Clean"
+				]
+			],
+			[
+				"Packages/Makefile/Make.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/User/c11.sublime-build",
+					""
+				],
+				[
+					"Packages/User/c11.sublime-build",
+					"Run in sublime"
+				]
+			],
+			[
+				"Packages/User/c11.sublime-build",
+				"Run in sublime"
+			]
+		],
+		[
+			[
+				[
+					"Packages/User/cpp_build.sublime-build",
+					""
+				],
+				[
+					"Packages/User/cpp_build.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/User/cpp_build.sublime-build",
+				"Run"
+			]
+		],
+		[
+			[
+				[
+					"Packages/User/ptest.sublime-build",
+					""
+				],
+				[
+					"Packages/User/ptest.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/User/ptest.sublime-build",
+				"Run"
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"disa",
+				"Anaconda: Disable linting on this file"
+			],
+			[
+				"diable li",
+				"Anaconda: Disable linting on this file"
+			],
+			[
+				"term",
+				"Terminal: Open in project folder"
+			],
+			[
+				"dis",
+				"Anaconda: Disable linting on this file"
+			],
+			[
+				"disable",
+				"SublimeLinter: Disable Linting"
+			],
+			[
+				"ter",
+				"Terminal: Open in project folder"
+			],
+			[
+				"makr",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"pre vi",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"disab",
+				"SublimeLinter: Disable Linter"
+			],
+			[
+				"markd",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"enabl",
+				"SublimeLinter: Enable Linter"
+			],
+			[
+				"linter",
+				"SublimeLinter: Enable Linting"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"git chec",
+				"Git: Checkout Current File"
+			],
+			[
+				"git che",
+				"Git: Checkout Current File"
+			],
+			[
+				"git status",
+				"Git: Status"
+			],
+			[
+				"git commit cu",
+				"Git: Quick Commit (current file)"
+			],
+			[
+				"git commit f",
+				"Git: Quick Commit (current file)"
+			],
+			[
+				"git q",
+				"Git: Quick Commit (current file)"
+			],
+			[
+				"git commit fi",
+				"Git: Quick Commit (current file)"
+			],
+			[
+				"git dif",
+				"Git: Diff Current File"
+			],
+			[
+				"git qu",
+				"Git: Quick Commit (current file)"
+			],
+			[
+				"addb",
+				"SublimeBookmarks: Add Bookmark"
+			],
+			[
+				"git comm",
+				"Git: Commit"
+			],
+			[
+				"git add c",
+				"Git: Add Current File"
+			],
+			[
+				"bookma",
+				"SublimeBookmarks: Show All Bookmarks "
+			],
+			[
+				"add boo",
+				"SublimeBookmarks: Add Bookmark"
+			],
+			[
+				"git stat",
+				"Git: Status"
+			],
+			[
+				"mar",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"cheet",
+				"Markdown Preview: Open Markdown Cheat sheet"
+			],
+			[
+				"remove ",
+				"Package Control: Remove Package"
+			],
+			[
+				"pand",
+				"Pandoc"
+			],
+			[
+				"git log",
+				"Git: Log All"
+			],
+			[
+				"git ad",
+				"Git: Diff Tool All"
+			],
+			[
+				"git commit cr",
+				"Git: Quick Commit (current file)"
+			],
+			[
+				"git com cur",
+				"Git: Quick Commit (current file)"
+			],
+			[
+				"clang",
+				"EasyClangComplete: Settings"
+			],
+			[
+				"termi",
+				"Terminal: Open in project folder"
+			],
+			[
+				"git am",
+				"Git: Amend Commit"
+			],
+			[
+				"git commi cu",
+				"Git: Quick Commit (current file)"
+			],
+			[
+				"git diff",
+				"Git: Diff Current File"
+			],
+			[
+				"git push",
+				"Git: Push"
+			],
+			[
+				"git commit cur",
+				"Git: Quick Commit (current file)"
+			],
+			[
+				"git addc",
+				"Git: Add Current File"
+			],
+			[
+				"git comit fi",
+				"Git: Quick Commit (current file)"
+			],
+			[
+				"chekcc",
+				"Git: Checkout Current File"
+			],
+			[
+				"",
+				"Anaconda: Disable linting on this file"
+			],
+			[
+				"git checr",
+				"Git: Checkout Current File"
+			],
+			[
+				"comm",
+				"Git: Commit"
+			],
+			[
+				"git add C",
+				"Git: Add Current File"
+			],
+			[
+				"git commit",
+				"Git: Commit"
+			],
+			[
+				"git add ",
+				"Git: Add All"
+			],
+			[
+				"book",
+				"SublimeBookmarks: Add Bookmark"
+			],
+			[
+				"clan",
+				"EasyClangComplete: Settings"
+			],
+			[
+				"termin",
+				"Terminal: Open in project folder"
+			],
+			[
+				"remov",
+				"Package Control: Remove Package"
+			],
+			[
+				"vintag",
+				"Vintageous: Open .vintageousrc"
+			],
+			[
+				"lint",
+				"SublimeLinter: Lint This View"
+			],
+			[
+				"makrd",
+				"Markdown Preview: Open Markdown Cheat sheet"
+			],
+			[
+				"sublimecl",
+				"Preferences: SublimeClang Settings – User"
+			],
+			[
+				"goto",
+				"Anaconda: Goto object definition"
+			],
+			[
+				"package",
+				"Package Control: Remove Package"
+			],
+			[
+				"unins",
+				"SublimeLinter: Make Warnings Passive"
+			],
+			[
+				"pack",
+				"Package Control: Remove Package"
+			],
+			[
+				"lin",
+				"SublimeLinter: Enable Linting"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"add b",
+				"SublimeBookmarks: Add Bookmark"
+			],
+			[
+				"git c",
+				"Git: Commit"
+			],
+			[
+				"git a",
+				"Git: Add..."
+			],
+			[
+				"viewre",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"resour",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"YCMD",
+				"Ycmd: Restart ycmd server"
+			],
+			[
+				"remv",
+				"Package Control: Remove Package"
+			],
+			[
+				"restart",
+				"Ycmd: Restart ycmd server"
+			],
+			[
+				"packageVi",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"ycmd",
+				"Ycmd: Show Error Panel"
+			],
+			[
+				"ycm",
+				"Ycmd: Restart ycmd server"
+			],
+			[
+				"yc",
+				"Ycmd: Create HMAC keys"
+			],
+			[
+				"view",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"ycmd cr",
+				"Ycmd: Create HMAC keys"
+			],
+			[
+				"git add",
+				"Git: Add All"
+			],
+			[
+				"resource",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"resou",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"git com",
+				"Git: Commit"
+			]
+		],
+		"width": 521.0
+	},
+	"console":
+	{
+		"height": 494.0,
+		"history":
+		[
+			"jkkj",
+			":12",
+			"import urllib.request,os,hashlib; h = 'df21e130d211cfc94d9b0905775a7c0f' + '1e3d39e33b79698005270310898eea76'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/ruanpingcheng/grive/Course/CS6208/Project"
+	],
+	"file_history":
+	[
+		"/home/ruanpingcheng/Desktop/Proj/Medical_MLP/model.py",
+		"/home/ruanpingcheng/grive/Course/CS5339/Kaggle/kaggle.py",
+		"/home/ruanpingcheng/grive/Course/CS5339/Kaggle/kaggle_lstm.py",
+		"/home/ruanpingcheng/Downloads/aSubmission.csv",
+		"/home/ruanpingcheng/grive/Course/CS5339/Kaggle/load.py",
+		"/home/ruanpingcheng/Desktop/Proj/Medical_MLP/train.py",
+		"/home/ruanpingcheng/Desktop/Proj/dbsystem-web/javascripts/data/data.js",
+		"/home/ruanpingcheng/.config/sublime-text-3/Packages/User/MarkdownPreview.sublime-settings",
+		"/home/ruanpingcheng/.config/sublime-text-3/Packages/Markdown Preview/MarkdownPreview.sublime-settings",
+		"/home/ruanpingcheng/grive/Course/CS6208/Week6/review6.md",
+		"/home/ruanpingcheng/Desktop/Proj/UStore/test/CA/test_tuple.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/UStore/test/CA/test_page.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/UStore/test/CA/test_field.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/UStore/test/CA/test_client.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/UStore/src/CA/type.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/UStore/src/CA/tuple.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/UStore/src/CA/relation.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/UStore/src/CA/page.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/UStore/src/CA/operator.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/UStore/src/CA/field.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/UStore/src/CA/debug.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/UStore/src/CA/client.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-crowdsourcing/timon/config.py",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/Makefile",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/src/schemamatch/SMmain.cpp",
+		"/home/ruanpingcheng/Desktop/test.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/src/schemamatch/SchemaMatching.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/README.md",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/src/schemamatch/SMCrowdsourcing.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/src/cs/cs_platform.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/include/cs/cs_core.h",
+		"/home/ruanpingcheng/Dropbox/Sublime/User/tmpl/Cpp_H.tmpl",
+		"/home/ruanpingcheng/grive/Course/CS6208/Week4/review.md",
+		"/home/ruanpingcheng/.config/sublime-text-3/Packages/User/SublimeLinter.sublime-settings",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/src/DICE.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/include/schemamatch/SchemaMatching.h",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/include/cs/cs_platform.h",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-crowdsourcing/timon/cs_callback.py",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/src/cs/cs_core.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/src/kb/KnowledgeBase.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/dice/doc/schemamatch.tex",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-crowdsourcing/turk/TurkManager.java",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/include/cs/cs_config.h",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/include/schemamatch/SMCrowdsourcing.h",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-crowdsourcing/README.md",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/src/engine/csbc.cpp",
+		"/home/ruanpingcheng/.config/sublime-text-3/Packages/User/SideBarEnhancements/Open With/Side Bar.sublime-menu",
+		"/home/ruanpingcheng/Desktop/Proj/dice/doc/mdp_eq.pdf",
+		"/home/ruanpingcheng/Desktop/test.md",
+		"/home/ruanpingcheng/.config/sublime-text-3/Packages/Pandoc/Pandoc.sublime-settings",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/src/field.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/test/test_relation.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/test/test_field.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/main.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/include/field.h",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/include/relation.h",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/tests/engine/KataraKBTest.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/python/knowledgebase/KataraKB.py",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/src/kb/KataraKB.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/data/katara.rdf",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/src/schemamatch/TablePattern.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/include/schemamatch/TablePattern.h",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-engine/tests/datacleanse/DCTest.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/src/operator.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/Makefile",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/include/debug.h",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/src/type.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/src/tuple.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/src/relation.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/src/page.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/test/test_client.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/test/test_page.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/test/test_tuple.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/test_relation.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/include/tuple.h",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/src/client.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/src/version.cpp",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/include/types.h",
+		"/home/ruanpingcheng/Desktop/Proj/ustore-rel/include/type.h",
+		"/home/ruanpingcheng/.config/sublime-text-3/Packages/User/FileHeader.sublime-settings",
+		"/home/ruanpingcheng/.config/sublime-text-3/Packages/FileHeader/FileHeader.sublime-settings",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/DbIterator.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/versioned/VersionedBufferPool.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/versioned/AbstractVersionedDbFile.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/versioned/VersionedDbFile.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/versioned/benchmark/SimpleDBWrapper.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/Database.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/BufferPool.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/versioned/IndexedVersionedDbFile.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/TransactionId.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/DbFile.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/PageId.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/versioned/benchmark/ycsb/DBFactory.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/versioned/benchmark/CoreVersionWorkload.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/versioned/benchmark/ycsb/Client.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/Catalog.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/versioned/CommitIdSet.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/versioned/benchmark/ycsb/VersionDB.java",
+		"/home/ruanpingcheng/Desktop/Proj/dbsystem-web/paper.html",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/versioned/benchmark/ycsb/Workload.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/LockManager.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/versioned/VersionPredicate.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/Field.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/Type.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/AbstractDbIterator.java",
+		"/media/ruanpingcheng/RPC/PwdUtil/src/Password.java",
+		"/media/ruanpingcheng/RPC/PwdUtil/src/Main.java",
+		"/media/ruanpingcheng/RPC/pwd.xml",
+		"/media/ruanpingcheng/RPC/PwdUtil/src/PwdUtils.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/Transaction.java",
+		"/home/ruanpingcheng/Desktop/Proj/ustore/SimpleDB/src/main/java/simpledb/versioned/heapfile/tuplefirst/MonolithicVersionedHeapFile.java",
+		"/home/ruanpingcheng/Desktop/Proj/dice/dice-crowdsourcing/turk/build.sh",
+		"/home/ruanpingcheng/.config/sublime-text-3/Packages/User/SublimeClang.sublime-settings",
+		"/home/ruanpingcheng/Desktop/dice/dice-engine/src/kb/KnowledgeBase.cpp",
+		"/home/ruanpingcheng/Desktop/dice/dice-crowdsourcing/timon/template/SingleChoice.html",
+		"/home/ruanpingcheng/Desktop/dice/dice-engine/src/DICE.cpp",
+		"/home/ruanpingcheng/Desktop/dice/dice-engine/src/schemamatch/SchemaMatching.cpp",
+		"/home/ruanpingcheng/Desktop/dice/dice-engine/include/schemamatch/SchemaMatching.h",
+		"/home/ruanpingcheng/Desktop/dice/dice-engine/src/cs/cs_platform.cpp",
+		"/home/ruanpingcheng/Desktop/dice/dice-engine/src/schemamatch/SMCrowdsourcing.cpp",
+		"/home/ruanpingcheng/Desktop/dice/dice-engine/Makefile",
+		"/home/ruanpingcheng/Desktop/dice/dice-engine/src/schemamatch/SMmain.cpp",
+		"/home/ruanpingcheng/Desktop/dice/dice-engine/include/schemamatch/SMCrowdsourcing.h",
+		"/home/ruanpingcheng/Desktop/dice/dice-engine/include/engine/WebTable.h",
+		"/home/ruanpingcheng/Desktop/dice/dice-engine/include/cs/cs_platform.h",
+		"/home/ruanpingcheng/Desktop/dice/dice-engine/include/engine/DiceTable.h",
+		"/home/ruanpingcheng/Desktop/CS_API/src/csbc.cpp",
+		"/home/ruanpingcheng/Desktop/dice/dice-engine/include/cs/cs_core.h"
+	],
+	"find":
+	{
+		"height": 32.0
+	},
+	"find_in_files":
+	{
+		"height": 132.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			":\n",
+			"\\t+",
+			"\\t",
+			"pdf",
+			"vector",
+			"ASSERT",
+			"EXPECT",
+			"if (msg != 0) {",
+			"\"does not",
+			"boost::",
+			"Field",
+			"satisfying",
+			"int index",
+			"endif",
+			" <",
+			"(){}",
+			"();",
+			"INSERT",
+			"update",
+			"transactionCom",
+			">\"",
+			"db->",
+			"creatDiceJob",
+			"import",
+			"\t\n",
+			"formatted_question",
+			"optionsRoot",
+			"main",
+			"src",
+			"TimonPlatform",
+			"const override",
+			"const = 0",
+			"const;",
+			"const",
+			"std::",
+			"test",
+			"corr_node",
+			"server_url",
+			"dump",
+			"\\n",
+			"dev",
+			"duration",
+			"U-Node",
+			"10",
+			"SCIENTIFIC",
+			"getVersionGraphStructure",
+			"ScientificBranchStrategy",
+			"VersionedDbFileUtility",
+			"makeTupleFirstFile",
+			"createVersionedTable",
+			"tableType",
+			"TABLE_TYPE_PROPERTY",
+			"tbl_type",
+			"Transaction ",
+			"Transaction",
+			"tbl_type",
+			"Measurements.",
+			"getMeasurements().measure",
+			"Measurements.getMeasurement().measure",
+			".measure",
+			"Measurements.",
+			"export",
+			"statusThread ",
+			"statusThread",
+			"Measurements.getMeasurements()",
+			"getMeasurements",
+			".measure",
+			"tbl_type",
+			"\"TF\"",
+			"TF",
+			"tupleLoad",
+			"tupleLoadStrategy",
+			"branchStrategy",
+			"tupleLoadStrategy",
+			"branchStrategy",
+			"alldone",
+			"branchStr",
+			"thread",
+			"THREAD_COUNT_PROPERTY",
+			"corr",
+			"corr_col",
+			"corr_type",
+			"corr_answers",
+			"tp",
+			"tp_",
+			"print",
+			"j2q",
+			"task_done",
+			"npos",
+			"this->client.",
+			"this->ClientService.",
+			";\n",
+			"\n            ",
+			"\"----------------------------------------------------------------------------\"",
+			"tuple_separator",
+			"8",
+			"tuple_separator",
+			"commit",
+			"MAX_REQUEST_SIZE",
+			"RELU",
+			"concatenation",
+			"  \n",
+			"count",
+			"type",
+			"\t\n",
+			"PKEntry",
+			"CKEntry",
+			"tkEntries",
+			";\n",
+			"DEP_DEBUG",
+			"KB"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			" ",
+			"",
+			"std::vector",
+			"EXPECT",
+			"ASSERT",
+			"if (msg != 0)",
+			"\" does not",
+			"",
+			"unsigned index",
+			"db_->",
+			"TurkPlatform",
+			"override",
+			" = 0",
+			";",
+			"",
+			"train",
+			",",
+			"latency",
+			"\\unode\\",
+			"match_col",
+			"match_answers",
+			"sm_",
+			"this->client->",
+			"field_separator",
+			"CKEntry",
+			"PKEntry"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "train.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7499,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6105,
+								6105
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": ".:>",
+									"selector": "source.c++ - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
+								}
+							],
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
+								7,
+								225,
+								2,
+								14,
+								13,
+								39,
+								29,
+								0,
+								5,
+								1,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
+							"highlight_line": false,
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
+							"vintage":
+							{
+								"_vintageous_glue_until_normal_mode": false,
+								"action": null,
+								"action_count": "",
+								"mode": "mode_normal",
+								"motion": null,
+								"motion_count": "",
+								"must_capture_register_name": false,
+								"normal_insert_count": "1",
+								"partial_sequence": "",
+								"register": "\"",
+								"sequence": "",
+								"xpos": 0
+							}
+						},
+						"translation.x": 0.0,
+						"translation.y": 4176.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "model.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2947,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1374,
+								1374
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": ".:>",
+									"selector": "source.c++ - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
+								}
+							],
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
+								7,
+								225,
+								2,
+								14,
+								13,
+								39,
+								29,
+								0,
+								5,
+								1,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
+							"vintage":
+							{
+								"_vintageous_glue_until_normal_mode": false,
+								"action": null,
+								"action_count": "",
+								"mode": "mode_normal",
+								"motion": null,
+								"motion_count": "",
+								"must_capture_register_name": false,
+								"normal_insert_count": "1",
+								"partial_sequence": "",
+								"register": "\"",
+								"sequence": "",
+								"xpos": 26
+							}
+						},
+						"translation.x": 0.0,
+						"translation.y": 576.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 32.0
+	},
+	"input":
+	{
+		"height": 48.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.CppYCM.2":
+	{
+		"height": 0.0
+	},
+	"output.astyle_error_message":
+	{
+		"height": 0.0
+	},
+	"output.clang-errors":
+	{
+		"height": 202.0
+	},
+	"output.exec":
+	{
+		"height": 370.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 202.0
+	},
+	"pinned_build_system": "Packages/Python/Python.sublime-build",
+	"project": "CS6208.sublime-project",
+	"replace":
+	{
+		"height": 60.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"cs_",
+				"src/cs/cs_platform.cpp"
+			],
+			[
+				"dice",
+				"src/DICE.cpp"
+			],
+			[
+				"mak",
+				"Makefile"
+			],
+			[
+				"smm",
+				"src/schemamatch/SMmain.cpp"
+			],
+			[
+				"make",
+				"Makefile"
+			],
+			[
+				"sc",
+				"src/schemamatch/SchemaMatching.cpp"
+			],
+			[
+				"di",
+				"src/DICE.cpp"
+			],
+			[
+				"smc",
+				"src/schemamatch/SMCrowdsourcing.cpp"
+			],
+			[
+				"read",
+				"README.md"
+			],
+			[
+				"sm",
+				"src/schemamatch/SchemaMatching.cpp"
+			],
+			[
+				"cs_plat",
+				"src/cs/cs_platform.cpp"
+			],
+			[
+				"cs_p",
+				"include/cs/cs_platform.h"
+			],
+			[
+				"cs_pl",
+				"include/cs/cs_platform.h"
+			],
+			[
+				"cs_co",
+				"src/cs/cs_core.cpp"
+			],
+			[
+				"d",
+				"src/DICE.cpp"
+			],
+			[
+				"kn",
+				"src/kb/KnowledgeBase.cpp"
+			],
+			[
+				"sch",
+				"src/schemamatch/SchemaMatching.cpp"
+			],
+			[
+				"re",
+				"README.md"
+			],
+			[
+				"cs_c",
+				"include/cs/cs_config.h"
+			],
+			[
+				"cs_/",
+				"include/cs/cs_core.h"
+			],
+			[
+				"csplat",
+				"src/cs/cs_platform.cpp"
+			],
+			[
+				"sche",
+				"src/schemamatch/SchemaMatching.cpp"
+			],
+			[
+				"cs",
+				"include/cs/cs_platform.h"
+			],
+			[
+				"csco",
+				"include/cs/cs_core.h"
+			],
+			[
+				"",
+				"src/cs/cs_core.cpp"
+			],
+			[
+				"cs_core.cp",
+				"src/cs/cs_core.cpp"
+			],
+			[
+				"cs_core",
+				"include/cs/cs_core.h"
+			],
+			[
+				"csbc",
+				"src/engine/csbc.cpp"
+			],
+			[
+				"cs_p.h",
+				"include/cs/cs_platform.h"
+			],
+			[
+				"cli",
+				"src/client.cpp"
+			],
+			[
+				"rela",
+				"include/relation.h"
+			],
+			[
+				"test_re",
+				"test/test_relation.cpp"
+			],
+			[
+				"rel",
+				"src/relation.cpp"
+			],
+			[
+				"testfi",
+				"test/test_field.cpp"
+			],
+			[
+				"main",
+				"main.cpp"
+			],
+			[
+				"field.c",
+				"src/field.cpp"
+			],
+			[
+				"tablep",
+				"src/schemamatch/TablePattern.cpp"
+			],
+			[
+				"katt",
+				"tests/engine/KataraKBTest.cpp"
+			],
+			[
+				"ka",
+				"python/knowledgebase/KataraKB.py"
+			],
+			[
+				"kardf",
+				"data/katara.rdf"
+			],
+			[
+				"kara",
+				"data/katara.rdf"
+			],
+			[
+				"kar",
+				"python/knowledgebase/KataraKB.py"
+			],
+			[
+				"testka",
+				"tests/engine/KataraKBTest.cpp"
+			],
+			[
+				"csp",
+				"include/cs/cs_platform.h"
+			],
+			[
+				"dic",
+				"src/DICE.cpp"
+			],
+			[
+				"tkb",
+				"tests/engine/KataraKBTest.cpp"
+			],
+			[
+				"dcte",
+				"tests/datacleanse/DCTest.cpp"
+			],
+			[
+				"schh",
+				"include/schemamatch/SchemaMatching.h"
+			],
+			[
+				"smcrc",
+				"src/schemamatch/SMCrowdsourcing.cpp"
+			],
+			[
+				"field",
+				"src/field.cpp"
+			],
+			[
+				"tu",
+				"include/tuple.h"
+			],
+			[
+				"test",
+				"test/test_page.cpp"
+			],
+			[
+				"fiel",
+				"src/field.cpp"
+			],
+			[
+				"tye",
+				"src/type.cpp"
+			],
+			[
+				"ty",
+				"include/type.h"
+			],
+			[
+				"fi",
+				"src/field.cpp"
+			],
+			[
+				"simpled",
+				"versioned/benchmark/SimpleDBWrapper.java"
+			],
+			[
+				"core",
+				"versioned/benchmark/CoreVersionWorkload.java"
+			],
+			[
+				"versioneddbf",
+				"versioned/VersionedDbFile.java"
+			],
+			[
+				"versionedh",
+				"versioned/heapfile/versionfirst/VersionedHeapFile.java"
+			],
+			[
+				"versionedhe",
+				"versioned/heapfile/versionfirst/VersionedHeapFile.java"
+			],
+			[
+				"heap",
+				"HeapPage.java"
+			],
+			[
+				"page",
+				"Page.java"
+			],
+			[
+				"versioneddb",
+				"versioned/VersionedDbFile.java"
+			],
+			[
+				"vers",
+				"versioned/VersionedBufferPool.java"
+			],
+			[
+				"corev",
+				"versioned/benchmark/CoreVersionWorkload.java"
+			],
+			[
+				"client",
+				"versioned/benchmark/ycsb/Client.java"
+			],
+			[
+				"versionedbu",
+				"versioned/VersionedBufferPool.java"
+			],
+			[
+				"type",
+				"Type.java"
+			],
+			[
+				"f",
+				"Field.java"
+			],
+			[
+				"cspla",
+				"dice-engine/include/cs/cs_platform.h"
+			],
+			[
+				"cscrow",
+				"src/schemamatch/SMCrowdsourcing.cpp"
+			],
+			[
+				"schema",
+				"src/schemamatch/SchemaMatching.cpp"
+			],
+			[
+				"webta",
+				"include/engine/WebTable.h"
+			],
+			[
+				"call",
+				"timon/cs_callback.py"
+			],
+			[
+				"simp",
+				"timon/template/SimpleText.html"
+			],
+			[
+				"de",
+				"~/Desktop/machine-edge/bokeh/core/deputy.py"
+			],
+			[
+				"me",
+				"mednet.py"
+			],
+			[
+				"model",
+				"~/workspace/Medical_MLP/model.py"
+			],
+			[
+				"eval",
+				"evaluation_data_science.tex"
+			],
+			[
+				"applicat",
+				"application_data_science.tex"
+			],
+			[
+				"versionedd",
+				"versioned/VersionedDbFile.java"
+			],
+			[
+				"tra",
+				"Transaction.java"
+			],
+			[
+				"versiondb",
+				"versioned/benchmark/ycsb/VersionDB.java"
+			],
+			[
+				"simpledb",
+				"versioned/benchmark/SimpleDBWrapper.java"
+			],
+			[
+				"oneme",
+				"versioned/benchmark/ycsb/measurements/OneMeasurementTimeSeries.java"
+			],
+			[
+				"one",
+				"versioned/benchmark/ycsb/measurements/OneMeasurement.java"
+			],
+			[
+				"mea",
+				"versioned/benchmark/ycsb/measurements/Measurements.java"
+			],
+			[
+				"sci",
+				"versioned/benchmark/branchstrategy/ScientificBranchStrategy.java"
+			],
+			[
+				"abstracttu",
+				"versioned/benchmark/tupleloadstrategy/AbstractTupleLoadStrategy.java"
+			],
+			[
+				"tupleload",
+				"versioned/benchmark/tupleloadstrategy/TupleLoadStrategy.java"
+			],
+			[
+				"siml",
+				"SimpleDb.java"
+			],
+			[
+				"versionedc",
+				"versioned/benchmark/VersionedScenario.java"
+			],
+			[
+				"sce",
+				"versioned/benchmark/ycsb/Scenario.java"
+			],
+			[
+				"workl",
+				"versioned/benchmark/ycsb/Workload.java"
+			],
+			[
+				"cro",
+				"src/Crowdsourcing.cpp"
+			],
+			[
+				"src",
+				"src/Crowdsourcing.cpp"
+			],
+			[
+				"pr",
+				"preprocess.py"
+			],
+			[
+				"pre",
+				"preprocess-claim.py"
+			],
+			[
+				"pro",
+				"preprocess-code.py"
+			],
+			[
+				"web",
+				"src/WebTable.cpp"
+			],
+			[
+				"webt",
+				"include/WebTable.h"
+			],
+			[
+				"table",
+				"include/TablePattern.h"
+			],
+			[
+				"ikn",
+				"include/IKnowledgeBase.h"
+			],
+			[
+				"ta",
+				"src/TablePattern.cpp"
+			],
+			[
+				"i",
+				"include/IKnowledgeBase.h"
+			],
+			[
+				"k",
+				"include/KnowledgeBase.h"
+			],
+			[
+				"we",
+				"include/WebTable.h"
+			],
+			[
+				"know",
+				"dice-knowledgebase/src/KnowledgeBase.cpp"
+			],
+			[
+				".g",
+				".gitignore"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/Desktop/Proj/dbsystem-web/dbweb.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+		"_vintageous_last_buffer_search": "create_c",
+		"_vintageous_last_buffer_search_command": "vi_slash",
+		"_vintageous_last_char_search_command": "vi_f",
+		"_vintageous_last_character_search": "0",
+		"_vintageous_reset_during_init": true,
+		"vintage":
+		{
+			"_cmdline_cd": "/home/ruanpingcheng/grive/Course/CS5339/Kaggle"
+		}
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 327.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
