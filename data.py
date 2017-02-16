@@ -1,5 +1,6 @@
 import cPickle as pk
 import numpy as np
+import sys
 
 
 def prepare(claims, patients, max_claim_count,distinct_code_count, demo_feature_count, t_ratio=0.8, w=2):
@@ -37,7 +38,7 @@ def prepare(claims, patients, max_claim_count,distinct_code_count, demo_feature_
 					break
 
 				if claim_num % 10000 == 0:
-					print "\tProcess Claim ", claim_num
+					# print "\tProcess Claim ", claim_num
 
 				pt_records = patients[pid]
 				for i,r in enumerate(pt_records):
@@ -62,7 +63,7 @@ def prepare(claims, patients, max_claim_count,distinct_code_count, demo_feature_
 	print "\tFinishing building claim data. Total Claim Num: ", claim_num
 
 	code_data = np.zeros((code_pair_num, distinct_code_count),dtype=np.float32)
-	code_labels = np.zeros(code_pair_num,dtype=np.float32)
+	code_labels = np.zeros(code_pair_num,dtype=np.int32)
 
 	code_pair_idx = 0
 	finish_code = False
@@ -79,9 +80,9 @@ def prepare(claims, patients, max_claim_count,distinct_code_count, demo_feature_
 					if code_idx1 == code_idx2:
 						continue
 					if code_pair_idx % 100000 == 0:
-						print "Processing code pair ", code_pair_idx
+						# print "Processing code pair ", code_pair_idx
 					code_data[code_pair_idx, code1] = 1.0
-					code_labels[code_pair_idx] = code_idx2
+					code_labels[code_pair_idx] = code2
 					code_pair_idx += 1
 
 		if finish_code:
@@ -134,18 +135,6 @@ if __name__ == "__main__":
 	claims = pk.load(open("claim.pkl","rb"))
 	# print "Len: ", len(claims)
 	patients = pk.load(open("patient.pkl","rb"))
-	# print "Len: ", len(patients)
-	# small_claims = dict()
-	# size = 10000
-	# i = 0
-	# for pid, pt_claims in claims.iteritems():
-	# 	if i % 1000 == 0:
-	# 		print i
-	# 	if i == size:
-	# 		break
-	# 	small_claims[pid] = pt_claims
-	# 	i += 1
 
-	# pk.dump(small_claims, open("claim10000.pkl","wb"))
 	prepare(claims, patients, max_claim_count=10000, distinct_code_count = 1722, demo_feature_count = 14, t_ratio=0.8, w=2)
 
