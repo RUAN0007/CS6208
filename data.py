@@ -38,7 +38,7 @@ def prepare(claims, patients, max_claim_count,distinct_code_count, demo_feature_
 					break
 
 				if claim_num % 10000 == 0:
-					# print "\tProcess Claim ", claim_num
+					print "\tProcess Claim ", claim_num
 
 				pt_records = patients[pid]
 				for i,r in enumerate(pt_records):
@@ -80,7 +80,7 @@ def prepare(claims, patients, max_claim_count,distinct_code_count, demo_feature_
 					if code_idx1 == code_idx2:
 						continue
 					if code_pair_idx % 100000 == 0:
-						# print "Processing code pair ", code_pair_idx
+						print "Processing code pair ", code_pair_idx
 					code_data[code_pair_idx, code1] = 1.0
 					code_labels[code_pair_idx] = code2
 					code_pair_idx += 1
