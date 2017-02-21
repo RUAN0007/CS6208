@@ -2,13 +2,14 @@
 # @Author: RUAN0007
 # @Date:   2017-02-21 14:35:35
 # @Last modified by:   RUAN0007
-# @Last Modified time: 2017-02-21 17:37:07
+# @Last Modified time: 2017-02-21 21:22:17
 #
 #
 
 import sys
 
 import numpy as np
+import json
 import pickle as pk
 from sklearn.manifold import TSNE
 from icd9 import ICD9
@@ -20,30 +21,75 @@ def compress(embedding_path):
     return model.fit_transform(raw_emb)
 
 def load_code(code_path):
-    code = pk.load(open("code.pkl","rb"))
-    dcode_i2s = code["dcode_i2s"]
-    pcode_i2s = code["pcode_i2s"]
-    print dcode_i2s
-    return dcode_i2s, pcode_i2s
+    code = pk.load(open(code_path,"rb"))
+    code_i2s = code["code_i2s"]
+    return code_i2s
 
 
-def main():
-    code_path = "code.pkl"
-    dcode_i2s, pcode_i2s = load_code(code_path)
-    dcode_len = len(dcode_i2s)
 
-    emb_path = "embedding_code_0.npy"
-    emb = compress(emb_path)
+def get_color(code):
+    if code[0] == "V":
+        return "#000000" #Black
+    if code[0] == "E":
+        return "#696969" #Grey
+
+    num_code = int(code)
+    if num_code <= 139:
+        return "#00FFFF"
+    elif num_code <= 239:
+        return "#0000FF"
+    elif num_code <= 279:
+        return "#7FFF00"
+    elif num_code <= 289:
+        return "#00008B"
+    elif num_code <= 319:
+        return "#9932CC"
+    elif num_code <= 359:
+        return "#FF1493"
+    elif num_code <= 389:
+        return "#1E90FF"
+    elif num_code <= 459:
+        return "#FFD700"
+    elif num_code <= 519:
+        return "#FF6984"
+    elif num_code <= 579:
+        return "#7CFC00"
+    elif num_code <= 629:
+        return "#F08080"
+    elif num_code <= 679:
+        return "#20B2AA"
+    elif num_code <= 709:
+        return "#00FF00"
+    elif num_code <= 739:
+        return "#800000"
+    elif num_code <= 759:
+        return "#000080"
+    elif num_code <= 799:
+        return "#FF4500"
+    elif num_code <= 999:
+        return "#663399"
+
+
+
+def prepare_json(code_pkl, icd_json, emb_np):
+    code_i2s = load_code(code_pkl)
+    code_count = len(code_i2s)
+
+    emb = compress(emb_np)
 
     med_emb = dict() # a dict where key is the medical code, value is a np matrix of embedding code
 
-    for dgn_idx, dgn_code in dcode_i2s.iteritems():
-        med_emb[dgn_code] = emb[dgn_idx]
+    tree = ICD9(icd_json)
+    points = []
+    for idx, code in code_i2s.iteritems():
+        marker = {"symbol":"circle", "fillColor":get_color(code)}
+        data = [list(emb[idx])]
+        name = code + ": " + tree.find(code).description
+        point = {"marker":marker, "data":data, "name":name}
+        points.append(point)
 
-    for prcd_idx, prcd_code in pcode_i2s.iteritems():
-        med_emb[prcd_code] = emb[prcd_idx + dcode_len]
+    return json.dumps(points)
 
-    print "Len Medical Embedding: ", len(med_emb)
 
     # num_show = 10
 
@@ -55,7 +101,12 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
-    tree = ICD9('icd9.json')
-    print tree.find('453').description
+    emb_path = "embedding_code_0.npy"
+    icd_json = "icd9.json"
+    code_pkl = "code.pkl"
+    json_str = prepare_json(code_pkl, icd_json, emb_path)
+
+    with open('emb.json', 'w') as f:
+        f.write("emd='" + json_str + "'")  # python will convert \n to os.linesep
+
     # main()
