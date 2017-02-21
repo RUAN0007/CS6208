@@ -5,6 +5,7 @@ from argparse import ArgumentParser
 from argparse import RawDescriptionHelpFormatter
 from singa import tensor, device, optimizer, layer
 from singa import utils, initializer, metric, loss
+from singa import net as ffnet
 from singa.proto import model_pb2
 from rafiki.agent import Agent, MsgType
 import cPickle as pk
@@ -34,7 +35,7 @@ def main():
         parser.add_argument('--max_epoch', default=140)
 
         parser.add_argument('--visit_file', default="claim.pkl", type=str, help='The path to the Pickled file containing visit information of patients')
-        parser.add_argument('--n_input_codes',default=1722, type=int, help='The number of unique input medical codes')
+        parser.add_argument('--n_input_codes',default=1050, type=int, help='The number of unique input medical codes')
 
         parser.add_argument('--patient_file',default='patient.pkl', type=str, help='The path to the Pickled file containing demographic features of patients')
         parser.add_argument('--n_demo_features', default=14, type=int, help='The number of demographic features')
@@ -181,9 +182,9 @@ def train(claim_net, cdense_w,
           code_embed_size,
           dev,
           max_epoch=50,
-          max_claim_count=10000,
+          max_claim_count=20000,
           claim_batch_size=100,
-          code_batch_size=500,
+          code_batch_size=100,
           agent=None):
 
     if agent is not None:
@@ -351,4 +352,5 @@ def train(claim_net, cdense_w,
 
 
 if __name__ == '__main__':
+    # ffnet.verbose = True
     main()

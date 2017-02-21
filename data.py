@@ -48,6 +48,9 @@ def prepare(claims, patients, max_claim_count,distinct_code_count, demo_feature_
 					claim_data[claim_num,c] = 1.0
 
 				neighbor_codes = pt_claims.items()[n][1]
+				if len(neighbor_codes) == 0:
+					print "Empty Labels"
+					sys.exit()
 
 				for c in neighbor_codes:
 					ngb_claim_data[claim_num,c] = 1.0
@@ -136,5 +139,5 @@ if __name__ == "__main__":
 	# print "Len: ", len(claims)
 	patients = pk.load(open("patient.pkl","rb"))
 
-	prepare(claims, patients, max_claim_count=10000, distinct_code_count = 1722, demo_feature_count = 14, t_ratio=0.8, w=2)
+	prepare(claims, patients, max_claim_count=10000, distinct_code_count = 1050, demo_feature_count = 14, t_ratio=0.8, w=2)
 

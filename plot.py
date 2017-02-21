@@ -2,7 +2,7 @@
 # @Author: RUAN0007
 # @Date:   2017-02-21 14:35:35
 # @Last modified by:   RUAN0007
-# @Last Modified time: 2017-02-21 15:28:45
+# @Last Modified time: 2017-02-21 17:37:07
 #
 #
 
@@ -11,6 +11,7 @@ import sys
 import numpy as np
 import pickle as pk
 from sklearn.manifold import TSNE
+from icd9 import ICD9
 
 def compress(embedding_path):
     raw_emb = np.load(embedding_path)
@@ -22,7 +23,7 @@ def load_code(code_path):
     code = pk.load(open("code.pkl","rb"))
     dcode_i2s = code["dcode_i2s"]
     pcode_i2s = code["pcode_i2s"]
-    print pcode_i2s
+    print dcode_i2s
     return dcode_i2s, pcode_i2s
 
 
@@ -54,4 +55,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    tree = ICD9('icd9.json')
+    print tree.find('453').description
+    # main()

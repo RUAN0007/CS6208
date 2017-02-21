@@ -2,7 +2,7 @@
 # @Author: RUAN0007
 # @Date:   2017-02-21 19:33:44
 # @Last modified by:   RUAN0007
-# @Last Modified time: 2017-02-21 19:39:35
+# @Last Modified time: 2017-02-21 20:19:37
 #
 #
 from icd9 import ICD9
@@ -67,8 +67,9 @@ def preprocess_claim(code_pkl, claim_csv,output_pkl):
                         claim_code_count += 1
                         claim_code.add(code_s2i[code])
 
-                patient_claim[cid] = claim_code
-                pre_pid = pid
+                if len(claim_code) > 0:
+                    patient_claim[cid] = claim_code
+                    pre_pid = pid
 
             claims[pre_pid] = patient_claim
             print "Dumping data"
@@ -77,6 +78,9 @@ def preprocess_claim(code_pkl, claim_csv,output_pkl):
             print "Total Claims: " + str(lc)
             print "Total Code: " + str(claim_code_count)
 
+# Total Patients: 85295
+# Total Claims: 792562
+# Total Code: 1973327
         except Exception as e:
             print "Fail to process "+ str(lc)
             print pid
@@ -187,5 +191,6 @@ def preprocess_patient(patient_csv,output_pkl):
             print pid
             print e
 
-if __name__ == __main__:
-    pass
+if __name__ == "__main__":
+    # preprocess_code("EMR/claim.csv", "icd9.json", "code.pkl")
+    preprocess_claim("code.pkl", "EMR/claim.csv", "claim.pkl")
