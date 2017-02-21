@@ -13,13 +13,13 @@ import model
 import data
 
 # Global Parameters
-code_embed_size = 64
-visit_embed_size = 128
-distinct_code_count = 1722 #Num of medical codes
-demo_feature_count = 14 #Num of demo features
-patient_file = ""
-visit_file = ""
-max_claim_count = 10000
+# code_embed_size = 64
+# visit_embed_size = 128
+# distinct_code_count = 1722 #Num of medical codes
+# demo_feature_count = 14 #Num of demo features
+# patient_file = ""
+# visit_file = ""
+# max_claim_count = 10000
 
 def main():
 
@@ -61,10 +61,20 @@ def main():
             print "runing with gpu"
             # dev = device.create_cuda_gpu()
 
-        m,cdense = model.create(distinct_code_count, code_embed_size, demo_feature_count, visit_embed_size, use_cpu)
+        m,cdense = model.create(distinct_code_count,
+                                code_embed_size,
+                                demo_feature_count,
+                                visit_embed_size,
+                                use_cpu)
 
         # agent = Agent(port)
-        train(m, cdense, visit_file, patient_file, dev, args.max_epoch)
+        train(m, cdense,
+              visit_file, patient_file,
+              distinct_code_count,
+              demo_feature_count,
+              code_embed_size,
+              dev, args.max_epoch
+              )
         # agent.stop()
 
     except SystemExit:
@@ -165,13 +175,26 @@ def train_claim(epoch, claim_net, opt,
 
 
 
-def train(claim_net, cdense_w, claim_path, patient_path, dev,
-          max_epoch=50, claim_batch_size=100, code_batch_size=500, agent=None):
+def train(claim_net, cdense_w,
+          claim_path, patient_path,
+          distinct_code_count,demo_feature_count,
+          code_embed_size,
+          dev,
+          max_epoch=50,
+          max_claim_count=10000,
+          claim_batch_size=100,
+          code_batch_size=500,
+          agent=None):
+
     if agent is not None:
         agent.push(MsgType.kStatus, 'Start Loading data...')
 
     claims,patients = load_data(claim_path, patient_path)
-    train_data, test_data = data.prepare(claims, patients, max_claim_count,distinct_code_count, demo_feature_count)
+    train_data, test_data = data.prepare(claims,
+                                         patients,
+                                         max_claim_count,
+                                         distinct_code_count,
+                                         demo_feature_count)
 
     train_claims = train_data[0]
     train_patients = train_data[1]
@@ -317,6 +340,13 @@ def train(claim_net, cdense_w, claim_path, patient_path, dev,
             code_loss += lvalue.l1()
 
         print '    testing code_loss = %f' % (code_loss / num_test_code_batch)
+
+
+        cdense_w.to_host()
+        file_path = "embedding_code_%d" % (epoch)
+        np.save(file_path, tensor.to_numpy(cdense_w))
+        print "Save embedding code to %s. " % file_path
+        cdense_w.to_device(dev)
 
 
 
