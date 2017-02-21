@@ -1,4 +1,5 @@
 *.pyc
+*.json
 *.npy
 *.pkl
 CS6208.sublime-workspace
