@@ -13,7 +13,7 @@ def prepare(claims, patients, max_claim_count,distinct_code_count, demo_feature_
 	#patient_data[i][j]: the demographic features of patients of ith claim
 	patient_data = np.zeros((max_claim_count,demo_feature_count),dtype=np.float32) #Shape:  claim_count * demo_feature
 
-	ngb_claim_data = np.zeros((max_claim_count,distinct_code_count),dtype=np.float32)
+	ngb_claim_data = np.zeros((max_claim_count,distinct_code_count),dtype=np.int32)
 
 	print "Start Processing Data: "
 	claim_num = 0

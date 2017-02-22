@@ -7,6 +7,7 @@ from singa import tensor, device, optimizer, layer
 from singa import utils, initializer, metric, loss
 from singa import net as ffnet
 from singa.proto import model_pb2
+from singa.proto import core_pb2
 from rafiki.agent import Agent, MsgType
 import cPickle as pk
 
@@ -214,10 +215,10 @@ def train(claim_net, cdense_w,
 
     t_claims = tensor.Tensor((claim_batch_size, distinct_code_count), dev)
     t_patients = tensor.Tensor((claim_batch_size, demo_feature_count), dev)
-    t_labels = tensor.Tensor((claim_batch_size, distinct_code_count), dev)
+    t_labels = tensor.Tensor((claim_batch_size, distinct_code_count), dev, core_pb2.kInt)
 
     t_codes = tensor.Tensor((code_batch_size, distinct_code_count), dev)
-    t_code_labels = tensor.Tensor((code_batch_size, ), dev)
+    t_code_labels = tensor.Tensor((code_batch_size, ), dev, core_pb2.kInt)
 
 
     claim_net.to_device(dev)
