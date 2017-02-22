@@ -2,7 +2,7 @@
 # @Author: RUAN0007
 # @Date:   2017-02-21 14:35:35
 # @Last modified by:   RUAN0007
-# @Last Modified time: 2017-02-21 21:22:17
+# @Last Modified time: 2017-02-22 10:02:04
 #
 #
 
@@ -107,6 +107,6 @@ if __name__ == "__main__":
     json_str = prepare_json(code_pkl, icd_json, emb_path)
 
     with open('emb.json', 'w') as f:
-        f.write("emd='" + json_str + "'")  # python will convert \n to os.linesep
+        f.write("emb='" + json_str + "'")  # python will convert \n to os.linesep
 
     # main()
