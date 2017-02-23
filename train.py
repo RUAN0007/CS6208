@@ -13,6 +13,7 @@ import cPickle as pk
 import model
 import data
 
+epoch_glob = 0
 
 def main():
 
@@ -60,12 +61,22 @@ def main():
                                 visit_embed_size,
                                 use_cpu)
 
+        claims,patients = load_data(visit_file, patient_file)
+
+        max_claim_count = 20000
+        train_data, test_data = data.prepare(claims,
+                                             patients,
+                                             max_claim_count,
+                                             distinct_code_count,
+                                             demo_feature_count)
+
         train(m, cdense,
-              visit_file, patient_file,
+              train_data, test_data,
               distinct_code_count,
               demo_feature_count,
               code_embed_size,
-              dev, args.max_epoch
+              dev, args.max_epoch,
+              max_claim_count
               )
 
     except SystemExit:
@@ -142,7 +153,7 @@ def train_claim(epoch, claim_net, opt,
 
 
 def train(claim_net, cdense_w,
-          claim_path, patient_path,
+          train_data, test_data,
           distinct_code_count,demo_feature_count,
           code_embed_size,
           dev,
@@ -152,13 +163,8 @@ def train(claim_net, cdense_w,
           code_batch_size=100 ):
 
 
-    claims,patients = load_data(claim_path, patient_path)
-    train_data, test_data = data.prepare(claims,
-                                         patients,
-                                         max_claim_count,
-                                         distinct_code_count,
-                                         demo_feature_count)
 
+    global epoch_glob
     train_claims = train_data[0]
     train_patients = train_data[1]
     train_claim_labels = train_data[2]
@@ -204,7 +210,13 @@ def train(claim_net, cdense_w,
     # print "cdense 2 w shape: ", cdense2.param_values()[0].shape #(64,1722)
 
     for epoch in range(max_epoch):
-        print 'Epoch %d' % epoch
+        epoch_glob = epoch
+        cdense_w.to_host()
+        file_path = "embedding_code"
+        np.save(file_path, tensor.to_numpy(cdense_w))
+        print "Epoch %d: Save embedding code to %s. " % (epoch, file_path)
+        cdense_w.to_device(dev)
+
         claim_tensors = (t_claims, t_patients, t_labels)
         train_claim_data = (train_claims, train_patients, train_claim_labels)
         test_claim_data = (test_claims, test_patients, test_claim_labels)
@@ -297,12 +309,6 @@ def train(claim_net, cdense_w,
 
         print '    testing code_loss = %f, recall = %f. ' % (code_loss / num_test_code_batch, code_recall / num_test_code_batch)
 
-        if epoch % 10 == 0:
-            cdense_w.to_host()
-            file_path = "embedding_code_%d" % (epoch)
-            np.save(file_path, tensor.to_numpy(cdense_w))
-            print "Save embedding code to %s. " % file_path
-            cdense_w.to_device(dev)
 
 
 
