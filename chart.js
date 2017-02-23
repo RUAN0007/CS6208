@@ -9,7 +9,7 @@ $(function () {
             width: 1200
         },
         title: {
-            text: 'Trained Diagnosis Vector'
+            text: 'Trained Diagnosis Vector after Epoch ' + epoch
         },
         subtitle: {
             text: 'Dimension reduced by TSNE'
