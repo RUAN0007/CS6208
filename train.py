@@ -8,20 +8,11 @@ from singa import utils, initializer, metric, loss
 from singa import net as ffnet
 from singa.proto import model_pb2
 from singa.proto import core_pb2
-from rafiki.agent import Agent, MsgType
 import cPickle as pk
 
 import model
 import data
 
-# Global Parameters
-# code_embed_size = 64
-# visit_embed_size = 128
-# distinct_code_count = 1722 #Num of medical codes
-# demo_feature_count = 14 #Num of demo features
-# patient_file = ""
-# visit_file = ""
-# max_claim_count = 10000
 
 def main():
 
@@ -69,7 +60,6 @@ def main():
                                 visit_embed_size,
                                 use_cpu)
 
-        # agent = Agent(port)
         train(m, cdense,
               visit_file, patient_file,
               distinct_code_count,
@@ -77,7 +67,6 @@ def main():
               code_embed_size,
               dev, args.max_epoch
               )
-        # agent.stop()
 
     except SystemExit:
         return
@@ -86,34 +75,6 @@ def main():
         traceback.print_exc()
         sys.stderr.write("  for help use --help \n\n")
         return 2
-
-
-def handle_cmd(agent):
-    pause = False
-    stop = False
-    while not stop:
-        key, val = agent.pull()
-        if key is not None:
-            msg_type = MsgType.parse(key)
-            if msg_type.is_command():
-                if MsgType.kCommandPause.equal(msg_type):
-                    agent.push(MsgType.kStatus, "Success")
-                    pause = True
-                elif MsgType.kCommandResume.equal(msg_type):
-                    agent.push(MsgType.kStatus, "Success")
-                    pause = False
-                elif MsgType.kCommandStop.equal(msg_type):
-                    agent.push(MsgType.kStatus, "Success")
-                    stop = True
-                else:
-                    agent.push(MsgType.kStatus, "Warning, unkown message type")
-                    print "Unsupported command %s" % str(key)
-        if pause and not stop:
-            time.sleep(0.1)
-        else:
-            break
-    return stop
-
 
 def get_claim_lr(epoch):
     '''change learning rate as epoch goes up'''
@@ -185,11 +146,8 @@ def train(claim_net, cdense_w,
           max_epoch=50,
           max_claim_count=20000,
           claim_batch_size=100,
-          code_batch_size=100,
-          agent=None):
+          code_batch_size=100 ):
 
-    if agent is not None:
-        agent.push(MsgType.kStatus, 'Start Loading data...')
 
     claims,patients = load_data(claim_path, patient_path)
     train_data, test_data = data.prepare(claims,
@@ -209,9 +167,6 @@ def train(claim_net, cdense_w,
     test_claim_labels = test_data[2]
     test_codes = test_data[3]
     test_code_labels = test_data[4]
-
-    if agent is not None:
-        agent.push(MsgType.kStatus, 'Finish Loading data')
 
     t_claims = tensor.Tensor((claim_batch_size, distinct_code_count), dev)
     t_patients = tensor.Tensor((claim_batch_size, demo_feature_count), dev)
@@ -245,8 +200,6 @@ def train(claim_net, cdense_w,
     # print "cdense 2 w shape: ", cdense2.param_values()[0].shape #(64,1722)
 
     for epoch in range(max_epoch):
-        if agent is not None and handle_cmd(agent):
-            break
         print 'Epoch %d' % epoch
         claim_tensors = (t_claims, t_patients, t_labels)
         train_claim_data = (train_claims, train_patients, train_claim_labels)
