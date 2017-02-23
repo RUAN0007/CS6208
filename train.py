@@ -12,8 +12,7 @@ import cPickle as pk
 
 import model
 import data
-
-epoch_glob = 0
+import visual
 
 def main():
 
@@ -150,8 +149,6 @@ def train_claim(epoch, claim_net, opt,
     print '    testing claim_loss = %f, recall = %f' % (claim_loss / num_test_claim_batch, recall / num_test_claim_batch)
 
 
-
-
 def train(claim_net, cdense_w,
           train_data, test_data,
           distinct_code_count,demo_feature_count,
@@ -165,6 +162,7 @@ def train(claim_net, cdense_w,
 
 
     global epoch_glob
+    global json_glob
     train_claims = train_data[0]
     train_patients = train_data[1]
     train_claim_labels = train_data[2]
@@ -210,11 +208,11 @@ def train(claim_net, cdense_w,
     # print "cdense 2 w shape: ", cdense2.param_values()[0].shape #(64,1722)
 
     for epoch in range(max_epoch):
-        epoch_glob = epoch
+
+        print "Epoch %d: " % (epoch + 1)
+
         cdense_w.to_host()
-        file_path = "embedding_code"
-        np.save(file_path, tensor.to_numpy(cdense_w))
-        print "Epoch %d: Save embedding code to %s. " % (epoch, file_path)
+        visual.output_json(epoch, tensor.to_numpy(cdense_w),"templates/emb.json")
         cdense_w.to_device(dev)
 
         claim_tensors = (t_claims, t_patients, t_labels)
