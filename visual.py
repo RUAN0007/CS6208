@@ -2,7 +2,7 @@
 # @Author: RUAN0007
 # @Date:   2017-02-21 14:35:35
 # @Last modified by:   RUAN0007
-# @Last Modified time: 2017-02-22 10:02:04
+# @Last Modified time: 2017-02-23 12:59:19
 #
 #
 
@@ -14,17 +14,21 @@ import pickle as pk
 from sklearn.manifold import TSNE
 from icd9 import ICD9
 
-def compress(embedding_path):
-    raw_emb = np.load(embedding_path)
+code_i2s = pk.load(open("code.pkl","rb"))["code_i2s"]
+code_count = len(code_i2s)
+tree = ICD9("icd9.json")
+
+import flask
+app = flask.Flask(__name__)
+
+@app.route('/')
+def index():
+   return flask.render_template("index.html")
+
+def compress(raw_emb):
     model = TSNE(n_components=2, random_state=0)
     np.set_printoptions(suppress=True)
     return model.fit_transform(raw_emb)
-
-def load_code(code_path):
-    code = pk.load(open(code_path,"rb"))
-    code_i2s = code["code_i2s"]
-    return code_i2s
-
 
 
 def get_color(code):
@@ -71,15 +75,11 @@ def get_color(code):
 
 
 
-def prepare_json(code_pkl, icd_json, emb_np):
-    code_i2s = load_code(code_pkl)
-    code_count = len(code_i2s)
+def output_json(epoch, raw_emb, output_path):
 
-    emb = compress(emb_np)
-
+    emb = compress(raw_emb)
     med_emb = dict() # a dict where key is the medical code, value is a np matrix of embedding code
 
-    tree = ICD9(icd_json)
     points = []
     for idx, code in code_i2s.iteritems():
         marker = {"symbol":"circle", "fillColor":get_color(code)}
@@ -88,25 +88,12 @@ def prepare_json(code_pkl, icd_json, emb_np):
         point = {"marker":marker, "data":data, "name":name}
         points.append(point)
 
-    return json.dumps(points)
+
+    series = json.dumps(points).replace("'", "\\\'")
+    with open(output_path, "w") as out:
+        out.write("epoch = %d;\n" % epoch)
+        out.write("emb = '%s';\n" % series)
 
 
-    # num_show = 10
-
-    # for k,v in med_emb.iteritems():
-    #     print "Med Code: ", k, " Embedding: ", v
-    #     num_show -= 1
-    #     if num_show == 0:
-    #         break
-
-
-if __name__ == "__main__":
-    emb_path = "embedding_code_0.npy"
-    icd_json = "icd9.json"
-    code_pkl = "code.pkl"
-    json_str = prepare_json(code_pkl, icd_json, emb_path)
-
-    with open('emb.json', 'w') as f:
-        f.write("emb='" + json_str + "'")  # python will convert \n to os.linesep
-
-    # main()
+if __name__ == '__main__':
+   app.run(debug = True)
