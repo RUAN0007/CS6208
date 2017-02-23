@@ -100,6 +100,7 @@ def train_claim(epoch, claim_net, opt,
     (claim_batch_size, num_train_claim_batch, num_test_claim_batch) = batch_size_info
 
     claim_loss = 0.0
+    recall = 0.0
     for b in range(num_train_claim_batch):
         train_claims_batch = train_claims[b * claim_batch_size:(b + 1) * claim_batch_size]
         train_patients_batch = train_patients[b * claim_batch_size:(b + 1) * claim_batch_size]
@@ -110,17 +111,19 @@ def train_claim(epoch, claim_net, opt,
         t_labels.copy_from_numpy(train_claim_labels_batch)
 
         tx = {"code_dense": t_claims, "demo": t_patients}
-        grads, (l, _) = claim_net.train(tx, t_labels)
+        grads, (l, r) = claim_net.train(tx, t_labels)
 
         claim_loss += l
+        recall += r
         for (s, p, g) in zip(claim_net.param_specs(), claim_net.param_values(), grads):
             opt.apply_with_lr(epoch, get_claim_lr(epoch), g, p, str(s.name))
         info = 'training claim_loss = %f' % (l)
         utils.update_progress(b * 1.0 / num_train_claim_batch, info)
 
-    print '\n  training claim_loss = %f' % (claim_loss / num_train_claim_batch)
+    print '\n  training claim_loss = %f, recall = %f' % (claim_loss / num_train_claim_batch, recall / num_train_claim_batch)
 
     claim_loss = 0.0
+    recall = 0.0
     for b in range(num_test_claim_batch):
         test_claims_batch = test_claims[b * claim_batch_size:(b + 1) * claim_batch_size]
         test_patients_batch = test_patients[b * claim_batch_size:(b + 1) * claim_batch_size]
@@ -130,10 +133,10 @@ def train_claim(epoch, claim_net, opt,
         t_labels.copy_from_numpy(test_claim_labels_batch)
 
         tx = {"code_dense": t_claims, "demo": t_patients}
-        l, _ = claim_net.evaluate(tx, t_labels)
-
+        l, r = claim_net.evaluate(tx, t_labels)
+        recall += r
         claim_loss += l
-    print '    testing claim_loss = %f' % (claim_loss / num_test_claim_batch)
+    print '    testing claim_loss = %f, recall = %f' % (claim_loss / num_test_claim_batch, recall / num_test_claim_batch)
 
 
 
@@ -188,6 +191,7 @@ def train(claim_net, cdense_w,
     opt = optimizer.SGD(momentum=0.9, weight_decay=0.0005)
 
     lossfun = loss.SoftmaxCrossEntropy()
+    recallfun = metric.Recall(top_k=100)
 
     cdense1 = layer.Dense('code_dense1', code_embed_size, input_sample_shape=(distinct_code_count,))
     cdense1.to_device(dev)
@@ -212,6 +216,7 @@ def train(claim_net, cdense_w,
 
 
         train_code_loss = 0.0
+        train_code_recall = 0.0
         for b in range(num_train_code_batch):
 
             #set W of cdense1 and cdense2 identical to cdense_w
@@ -234,9 +239,12 @@ def train(claim_net, cdense_w,
             cdense2out = cdense2.forward(model_pb2.kTrain, cdense1out)
 
             lvalue = lossfun.forward(model_pb2.kTrain, cdense2out, t_code_labels)
+            recall = recallfun.evaluate(cdense2out, t_code_labels)
 
             batch_code_loss = lvalue.l1()
             train_code_loss += batch_code_loss
+
+            train_code_recall += recall
 
             grad = lossfun.backward()
             grad /= code_batch_size
@@ -263,26 +271,17 @@ def train(claim_net, cdense_w,
             gcw /= 2.0
 
             info = 'Batch training code loss = %f' % (batch_code_loss)
-            # print "Batch: ", b
-            # print "gw1: ", gw1.l1()
-            # print "gw2: ", gw2.l1()
-            # print "cgw1: ", cgw1.l1()
-            # print "cgw2: ", cgw2.l1()
-            # print "gcw: ", gcw.l1()
-            # print "cdense_w: ", cdense_w.l1()
-            # print info
-            # print ""
-            # input()
-
 
             opt.apply_with_lr(epoch, get_code_lr(epoch), gcw, cdense_w, "Fake Para")
 
             # sys.exit()
             utils.update_progress(b * 1.0 / num_train_code_batch, info)
 
-        print '\n  training code_loss = %f' % (train_code_loss / num_train_code_batch)
+        print '\n  training code_loss = %f, recall = %f. ' % (train_code_loss / num_train_code_batch,
+            train_code_recall / num_train_code_batch)
 
         code_loss = 0.0
+        code_recall = 0.0
         for b in range(num_test_code_batch):
 
             t_codes.copy_from_numpy(test_codes[b * code_batch_size:(b + 1) * code_batch_size])
@@ -291,17 +290,19 @@ def train(claim_net, cdense_w,
             cdense1out = cdense1.forward(model_pb2.kEval, t_codes)
             cdense2out = cdense2.forward(model_pb2.kEval, cdense1out)
             lvalue = lossfun.forward(model_pb2.kEval, cdense2out, t_code_labels)
+            recall = recallfun.evaluate(cdense2out, t_code_labels)
 
             code_loss += lvalue.l1()
+            code_recall += recall
 
-        print '    testing code_loss = %f' % (code_loss / num_test_code_batch)
+        print '    testing code_loss = %f, recall = %f. ' % (code_loss / num_test_code_batch, code_recall / num_test_code_batch)
 
-
-        cdense_w.to_host()
-        file_path = "embedding_code_%d" % (epoch)
-        np.save(file_path, tensor.to_numpy(cdense_w))
-        print "Save embedding code to %s. " % file_path
-        cdense_w.to_device(dev)
+        if epoch % 10 == 0:
+            cdense_w.to_host()
+            file_path = "embedding_code_%d" % (epoch)
+            np.save(file_path, tensor.to_numpy(cdense_w))
+            print "Save embedding code to %s. " % file_path
+            cdense_w.to_device(dev)
 
 
 
