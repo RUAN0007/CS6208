@@ -11,7 +11,7 @@ def create(distinct_code_count, code_embed_size, demo_feature_count,visit_embed_
     if use_cpu:
         layer.engine = 'singacpp'
 
-    net = ffnet.FeedForwardNet(loss.SoftmaxCrossEntropy())
+    net = ffnet.FeedForwardNet(loss.SoftmaxCrossEntropy(), metric.Recall(top_k=100))
     wdense = layer.Dense('code_dense', code_embed_size, input_sample_shape=(distinct_code_count,))
     net.add(wdense)
     code_relu = layer.Activation('Code_RELU')
