@@ -69,14 +69,32 @@ def main():
                                              distinct_code_count,
                                              demo_feature_count)
 
-        train(m, cdense,
+        claim_train_losses, claim_test_losses, claim_train_recalls, claim_test_recalls, code_train_losses, code_test_losses, code_train_recalls, code_test_recalls = train(m, cdense,
               train_data, test_data,
               distinct_code_count,
               demo_feature_count,
               code_embed_size,
-              dev, args.max_epoch,
+              dev,
+              2, #args.max_epoch,
               max_claim_count
               )
+
+        stat = dict()
+        stat["claim_train_loss"] = claim_train_losses
+        stat["claim_test_loss"] = claim_test_losses
+
+        stat["claim_train_recall"] = claim_train_recalls
+        stat["claim_test_recall"] = claim_test_recalls
+
+        stat["code_train_loss"] = code_train_losses
+        stat["code_test_loss"] = code_test_losses
+
+        stat["code_train_recall"] = code_train_recalls
+        stat["code_test_recall"] = code_test_recalls
+        pk.dump(stat, open("stat.pkl","wb"))
+
+
+
 
     except SystemExit:
         return
@@ -130,6 +148,8 @@ def train_claim(epoch, claim_net, opt,
         info = 'training claim_loss = %f' % (l)
         utils.update_progress(b * 1.0 / num_train_claim_batch, info)
 
+    train_loss = claim_loss / num_train_claim_batch
+    train_recall = recall / num_train_claim_batch
     print '\n  training claim_loss = %f, recall = %f' % (claim_loss / num_train_claim_batch, recall / num_train_claim_batch)
 
     claim_loss = 0.0
@@ -148,6 +168,11 @@ def train_claim(epoch, claim_net, opt,
         claim_loss += l
     print '    testing claim_loss = %f, recall = %f' % (claim_loss / num_test_claim_batch, recall / num_test_claim_batch)
 
+    test_loss = claim_loss / num_test_claim_batch
+    test_recall = recall / num_test_claim_batch
+
+    return (train_loss, test_loss), (train_recall, test_recall)
+
 
 def train(claim_net, cdense_w,
           train_data, test_data,
@@ -159,10 +184,6 @@ def train(claim_net, cdense_w,
           claim_batch_size=100,
           code_batch_size=100 ):
 
-
-
-    global epoch_glob
-    global json_glob
     train_claims = train_data[0]
     train_patients = train_data[1]
     train_claim_labels = train_data[2]
@@ -207,19 +228,36 @@ def train(claim_net, cdense_w,
     # print "cdense 1 w shape: ", cdense1.param_values()[0].shape #(1722, 64)
     # print "cdense 2 w shape: ", cdense2.param_values()[0].shape #(64,1722)
 
+    claim_train_losses = []
+    claim_test_losses = []
+
+    code_train_losses = []
+    code_test_losses = []
+
+    claim_train_recalls = []
+    claim_test_recalls = []
+
+    code_train_recalls = []
+    code_test_recalls = []
+
     for epoch in range(max_epoch):
 
         print "Epoch %d: " % (epoch + 1)
 
         cdense_w.to_host()
-        visual.output_json(epoch, tensor.to_numpy(cdense_w),"templates/emb.json")
+        visual.output_json(epoch, tensor.to_numpy(cdense_w),"emb_%d.json" % epoch)
         cdense_w.to_device(dev)
 
         claim_tensors = (t_claims, t_patients, t_labels)
         train_claim_data = (train_claims, train_patients, train_claim_labels)
         test_claim_data = (test_claims, test_patients, test_claim_labels)
-        train_claim(epoch, claim_net, opt, claim_tensors, train_claim_data, test_claim_data,claim_batch_size_info)
+        (claim_train_loss, claim_test_loss), (claim_train_recall, claim_test_recall) = train_claim(epoch, claim_net, opt, claim_tensors, train_claim_data, test_claim_data,claim_batch_size_info)
 
+        claim_train_losses.append(claim_train_loss)
+        claim_test_losses.append(claim_test_loss)
+
+        claim_train_recalls.append(claim_train_recall)
+        claim_test_recalls.append(claim_test_recall)
     #     if epoch > 0 and epoch % 10 == 0:
     #         claim_net.save('model_%d' % epoch)
     # claim_net.save('model')
@@ -307,6 +345,14 @@ def train(claim_net, cdense_w,
 
         print '    testing code_loss = %f, recall = %f. ' % (code_loss / num_test_code_batch, code_recall / num_test_code_batch)
 
+        code_train_losses.append(train_code_loss / num_train_code_batch)
+        code_test_losses.append(code_loss / num_test_code_batch)
+
+        code_train_recalls.append(train_code_recall / num_train_code_batch)
+        code_test_recalls.append(code_recall / num_test_code_batch)
+    # end of epoch
+
+    return claim_train_losses, claim_test_losses, claim_train_recalls, claim_test_recalls, code_train_losses, code_test_losses, code_train_recalls, code_test_recalls
 
 
 
