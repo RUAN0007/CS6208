@@ -145,12 +145,12 @@ def train_claim(epoch, claim_net, opt,
         recall += r
         for (s, p, g) in zip(claim_net.param_specs(), claim_net.param_values(), grads):
             opt.apply_with_lr(epoch, get_claim_lr(epoch), g, p, str(s.name))
-        info = 'training claim_loss = %f' % (l)
-        utils.update_progress(b * 1.0 / num_train_claim_batch, info)
+        # info = 'training claim_loss = %f' % (l)
+        # utils.update_progress(b * 1.0 / num_train_claim_batch, info)
 
     train_loss = claim_loss / num_train_claim_batch
     train_recall = recall / num_train_claim_batch
-    print '\n  training claim_loss = %f, recall = %f' % (claim_loss / num_train_claim_batch, recall / num_train_claim_batch)
+    # print '\n  training claim_loss = %f, recall = %f' % (claim_loss / num_train_claim_batch, recall / num_train_claim_batch)
 
     claim_loss = 0.0
     recall = 0.0
@@ -166,7 +166,7 @@ def train_claim(epoch, claim_net, opt,
         l, r = claim_net.evaluate(tx, t_labels)
         recall += r
         claim_loss += l
-    print '    testing claim_loss = %f, recall = %f' % (claim_loss / num_test_claim_batch, recall / num_test_claim_batch)
+    # print '    testing claim_loss = %f, recall = %f' % (claim_loss / num_test_claim_batch, recall / num_test_claim_batch)
 
     test_loss = claim_loss / num_test_claim_batch
     test_recall = recall / num_test_claim_batch
@@ -175,26 +175,15 @@ def train_claim(epoch, claim_net, opt,
 
 
 def train(claim_net, cdense_w,
-          train_data, test_data,
+          # train_data, test_data,
+          num_visit_patient,
           distinct_code_count,demo_feature_count,
           code_embed_size,
           dev,
           max_epoch=50,
-          max_claim_count=20000,
+          max_patient=5000,
           claim_batch_size=100,
-          code_batch_size=100 ):
-
-    train_claims = train_data[0]
-    train_patients = train_data[1]
-    train_claim_labels = train_data[2]
-    train_codes = train_data[3]
-    train_code_labels = train_data[4]
-
-    test_claims = test_data[0]
-    test_patients = test_data[1]
-    test_claim_labels = test_data[2]
-    test_codes = test_data[3]
-    test_code_labels = test_data[4]
+          code_batch_size=500 ):
 
     t_claims = tensor.Tensor((claim_batch_size, distinct_code_count), dev)
     t_patients = tensor.Tensor((claim_batch_size, demo_feature_count), dev)
@@ -203,15 +192,7 @@ def train(claim_net, cdense_w,
     t_codes = tensor.Tensor((code_batch_size, distinct_code_count), dev)
     t_code_labels = tensor.Tensor((code_batch_size, ), dev, core_pb2.kInt)
 
-
     claim_net.to_device(dev)
-
-    num_train_claim_batch = train_claims.shape[0] / claim_batch_size
-    num_test_claim_batch = test_claims.shape[0] / claim_batch_size
-    claim_batch_size_info = (claim_batch_size, num_train_claim_batch, num_test_claim_batch)
-
-    num_train_code_batch = train_codes.shape[0] / code_batch_size
-    num_test_code_batch = test_codes.shape[0] / code_batch_size
 
     opt = optimizer.SGD(momentum=0.9, weight_decay=0.0005)
 
@@ -240,116 +221,186 @@ def train(claim_net, cdense_w,
     code_train_recalls = []
     code_test_recalls = []
 
+    num_subepoch = num_visit_patient / max_patient
+
+    print "Number of Subepoch: ", num_subepoch
+
+
     for epoch in range(max_epoch):
 
         print "Epoch %d: " % (epoch + 1)
-
         cdense_w.to_host()
         visual.output_json(epoch, tensor.to_numpy(cdense_w),"emb_%d.json" % epoch)
         cdense_w.to_device(dev)
 
-        claim_tensors = (t_claims, t_patients, t_labels)
-        train_claim_data = (train_claims, train_patients, train_claim_labels)
-        test_claim_data = (test_claims, test_patients, test_claim_labels)
-        (claim_train_loss, claim_test_loss), (claim_train_recall, claim_test_recall) = train_claim(epoch, claim_net, opt, claim_tensors, train_claim_data, test_claim_data,claim_batch_size_info)
+        epoch_train_code_loss = 0.0
+        epoch_train_code_recall = 0.0
 
-        claim_train_losses.append(claim_train_loss)
-        claim_test_losses.append(claim_test_loss)
+        epoch_test_code_loss = 0.0
+        epoch_test_code_recall = 0.0
 
-        claim_train_recalls.append(claim_train_recall)
-        claim_test_recalls.append(claim_test_recall)
-    #     if epoch > 0 and epoch % 10 == 0:
-    #         claim_net.save('model_%d' % epoch)
-    # claim_net.save('model')
+        epoch_train_claim_loss = 0.0
+        epoch_train_claim_recall = 0.0
+
+        epoch_test_claim_loss = 0.0
+        epoch_test_claim_recall = 0.0
+
+        for subepoch in range(num_subepoch):
+            sub_train_code_loss = 0.0
+            sub_train_code_recall = 0.0
+
+            sub_test_code_loss = 0.0
+            sub_test_code_recall = 0.0
+
+            sub_train_claim_loss = 0.0
+            sub_train_claim_recall = 0.0
+
+            sub_test_claim_loss = 0.0
+            sub_test_claim_recall = 0.0
+
+            # prepare train_data and test_data for subepoch
+            train_claims = train_data[0]
+            train_patients = train_data[1]
+            train_claim_labels = train_data[2]
+            train_codes = train_data[3]
+            train_code_labels = train_data[4]
+
+            test_claims = test_data[0]
+            test_patients = test_data[1]
+            test_claim_labels = test_data[2]
+            test_codes = test_data[3]
+            test_code_labels = test_data[4]
+
+            num_train_claim_batch = train_claims.shape[0] / claim_batch_size
+            num_test_claim_batch = test_claims.shape[0] / claim_batch_size
+            claim_batch_size_info = (claim_batch_size, num_train_claim_batch, num_test_claim_batch)
+
+            num_train_code_batch = train_codes.shape[0] / code_batch_size
+            num_test_code_batch = test_codes.shape[0] / code_batch_size
 
 
-        train_code_loss = 0.0
-        train_code_recall = 0.0
-        for b in range(num_train_code_batch):
 
-            #set W of cdense1 and cdense2 identical to cdense_w
-            #zero b of cdense1 and cdense2
+            claim_tensors = (t_claims, t_patients, t_labels)
+            train_claim_data = (train_claims, train_patients, train_claim_labels)
+            test_claim_data = (test_claims, test_patients, test_claim_labels)
 
-            cdense1.param_values()[0].copy_data(tensor.relu(cdense_w))
-            cdense1.param_values()[1].set_value(0)
+            (sub_train_claim_loss, sub_test_claim_loss), (sub_train_claim_recall, sub_test_claim_recall) = train_claim(epoch, claim_net, opt, claim_tensors, train_claim_data, test_claim_data,claim_batch_size_info)
 
-            cdense_w.to_host()
-            ncw = tensor.to_numpy(tensor.relu(cdense_w))
-            cdense_w.to_device(dev)
 
-            cdense2.param_values()[0].copy_from_numpy(np.transpose(ncw))
-            cdense2.param_values()[1].set_value(0)
+            epoch_train_claim_loss += sub_train_claim_loss
+            epoch_train_claim_recall += sub_test_claim_loss
 
-            t_codes.copy_from_numpy(train_codes[b * code_batch_size:(b + 1) * code_batch_size])
-            t_code_labels.copy_from_numpy(train_code_labels[b * code_batch_size:(b + 1) * code_batch_size])
+            epoch_test_claim_loss += sub_train_claim_recall
+            epoch_test_claim_recall += sub_test_claim_recall
 
-            cdense1out = cdense1.forward(model_pb2.kTrain, t_codes)
-            cdense2out = cdense2.forward(model_pb2.kTrain, cdense1out)
+            for b in range(num_train_code_batch):
 
-            lvalue = lossfun.forward(model_pb2.kTrain, cdense2out, t_code_labels)
-            recall = recallfun.evaluate(cdense2out, t_code_labels)
+                #set W of cdense1 and cdense2 identical to cdense_w
+                #zero b of cdense1 and cdense2
 
-            batch_code_loss = lvalue.l1()
-            train_code_loss += batch_code_loss
+                cdense1.param_values()[0].copy_data(tensor.relu(cdense_w))
+                cdense1.param_values()[1].set_value(0)
 
-            train_code_recall += recall
+                cdense_w.to_host()
+                ncw = tensor.to_numpy(tensor.relu(cdense_w))
+                cdense_w.to_device(dev)
 
-            grad = lossfun.backward()
-            grad /= code_batch_size
+                cdense2.param_values()[0].copy_from_numpy(np.transpose(ncw))
+                cdense2.param_values()[1].set_value(0)
 
-            grad, (gw2,_) = cdense2.backward(model_pb2.kTrain, grad)
-            _, (gw1,_) = cdense1.backward(model_pb2.kTrain, grad)
+                t_codes.copy_from_numpy(train_codes[b * code_batch_size:(b + 1) * code_batch_size])
+                t_code_labels.copy_from_numpy(train_code_labels[b * code_batch_size:(b + 1) * code_batch_size])
 
-            cw1 = cdense1.param_values()[0]
-            cw2 = cdense2.param_values()[0]
+                cdense1out = cdense1.forward(model_pb2.kTrain, t_codes)
+                cdense2out = cdense2.forward(model_pb2.kTrain, cdense1out)
 
-            cgw1 = tensor.eltwise_mult(gw1, tensor.sign(cw1))
-            cgw2 = tensor.eltwise_mult(gw2, tensor.sign(cw2))
+                lvalue = lossfun.forward(model_pb2.kTrain, cdense2out, t_code_labels)
+                recall = recallfun.evaluate(cdense2out, t_code_labels)
 
-            # print "cw1 shape: ", cw1.shape, " gw1 shape: ", gw1.shape, " cgw1 shape: ", cgw1.shape #(1722, 64)
-            # print "cw2 shape: ", cw2.shape, " gw2 shape: ", gw2.shape, " cgw2 shape: ", cgw2.shape # (64, 1722)
-            # sys.exit()
+                batch_code_loss = lvalue.l1()
+                sub_train_code_loss += batch_code_loss
+                sub_train_code_recall += recall
 
-            cgw2.to_host()
-            ncgw2_t = np.transpose(tensor.to_numpy(cgw2))
-            gcw.copy_from_numpy(ncgw2_t)
-            cgw2.to_device(dev)
+                grad = lossfun.backward()
+                grad /= code_batch_size
 
-            gcw += cgw1
-            gcw /= 2.0
+                grad, (gw2,_) = cdense2.backward(model_pb2.kTrain, grad)
+                _, (gw1,_) = cdense1.backward(model_pb2.kTrain, grad)
 
-            info = 'Batch training code loss = %f' % (batch_code_loss)
+                cw1 = cdense1.param_values()[0]
+                cw2 = cdense2.param_values()[0]
 
-            opt.apply_with_lr(epoch, get_code_lr(epoch), gcw, cdense_w, "Fake Para")
+                cgw1 = tensor.eltwise_mult(gw1, tensor.sign(cw1))
+                cgw2 = tensor.eltwise_mult(gw2, tensor.sign(cw2))
 
-            # sys.exit()
-            utils.update_progress(b * 1.0 / num_train_code_batch, info)
+                cgw2.to_host()
+                ncgw2_t = np.transpose(tensor.to_numpy(cgw2))
+                gcw.copy_from_numpy(ncgw2_t)
+                cgw2.to_device(dev)
 
-        print '\n  training code_loss = %f, recall = %f. ' % (train_code_loss / num_train_code_batch,
-            train_code_recall / num_train_code_batch)
+                gcw += cgw1
+                gcw /= 2.0
 
-        code_loss = 0.0
-        code_recall = 0.0
-        for b in range(num_test_code_batch):
+                info = 'Batch training code loss = %f' % (batch_code_loss)
 
-            t_codes.copy_from_numpy(test_codes[b * code_batch_size:(b + 1) * code_batch_size])
-            t_code_labels.copy_from_numpy(test_code_labels[b * code_batch_size:(b + 1) * code_batch_size])
+                opt.apply_with_lr(epoch, get_code_lr(epoch), gcw, cdense_w, "Fake Para")
 
-            cdense1out = cdense1.forward(model_pb2.kEval, t_codes)
-            cdense2out = cdense2.forward(model_pb2.kEval, cdense1out)
-            lvalue = lossfun.forward(model_pb2.kEval, cdense2out, t_code_labels)
-            recall = recallfun.evaluate(cdense2out, t_code_labels)
+                # sys.exit()
 
-            code_loss += lvalue.l1()
-            code_recall += recall
+            for b in range(num_test_code_batch):
 
-        print '    testing code_loss = %f, recall = %f. ' % (code_loss / num_test_code_batch, code_recall / num_test_code_batch)
+                t_codes.copy_from_numpy(test_codes[b * code_batch_size:(b + 1) * code_batch_size])
+                t_code_labels.copy_from_numpy(test_code_labels[b * code_batch_size:(b + 1) * code_batch_size])
 
-        code_train_losses.append(train_code_loss / num_train_code_batch)
-        code_test_losses.append(code_loss / num_test_code_batch)
+                cdense1out = cdense1.forward(model_pb2.kEval, t_codes)
+                cdense2out = cdense2.forward(model_pb2.kEval, cdense1out)
+                lvalue = lossfun.forward(model_pb2.kEval, cdense2out, t_code_labels)
+                recall = recallfun.evaluate(cdense2out, t_code_labels)
 
-        code_train_recalls.append(train_code_recall / num_train_code_batch)
-        code_test_recalls.append(code_recall / num_test_code_batch)
+                sub_test_code_loss += lvalue.l1()
+                sub_test_code_recall += recall
+
+            sub_train_code_loss = sub_train_code_loss / num_train_code_batch
+            sub_train_code_recall = sub_test_code_loss / num_train_code_batch
+
+            sub_test_code_loss = sub_train_code_recall / num_test_code_batch
+            sub_test_code_recall = sub_test_code_recall / num_test_code_batch
+
+
+
+            ###########Increment the epoch counter
+            epoch_train_claim_loss += sub_train_claim_loss
+            epoch_train_claim_recall += sub_test_claim_loss
+
+            epoch_test_claim_loss += sub_train_claim_recall
+            epoch_test_claim_recall += sub_test_claim_recall
+
+            epoch_train_code_loss += sub_train_code_loss
+            epoch_train_code_recall += sub_test_code_loss
+
+            epoch_test_code_loss += sub_train_code_recall
+            epoch_test_code_recall += sub_test_code_recall
+
+            info = "\nVisit Loss: %5.3f (%5.3f), Recall: %5.3f (%5.3f)" % (sub_train_claim_loss, sub_test_claim_loss, sub_train_claim_recall, sub_test_claim_recall)
+
+            info += "\nCode Loss: %5.3f (%5.3f), Recall: %5.3f (%5.3f)" % (sub_train_code_loss, sub_test_code_loss, sub_train_code_recall, sub_test_code_recall)
+
+            utils.update_progress(subepoch * 1.0 / num_subepoch, info)
+
+        # end of subepoch
+
+        claim_train_losses.append(epoch_train_claim_loss / num_subepoch)
+        claim_test_losses.append(epoch_test_claim_loss / num_subepoch)
+
+        claim_train_recalls.append(epoch_train_claim_recall / num_subepoch)
+        claim_test_recalls.append(epoch_test_claim_recall / num_subepoch)
+
+        code_train_losses.append(epoch_train_code_loss / num_subepoch)
+        code_test_losses.append(epoch_test_code_loss / num_subepoch)
+
+        code_train_recalls.append(epoch_train_code_recall / num_subepoch)
+        code_test_recalls.append(epoch_test_code_recall / num_subepoch)
+
     # end of epoch
 
     return claim_train_losses, claim_test_losses, claim_train_recalls, claim_test_recalls, code_train_losses, code_test_losses, code_train_recalls, code_test_recalls
