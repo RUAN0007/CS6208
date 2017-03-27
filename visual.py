@@ -14,16 +14,9 @@ import pickle as pk
 from sklearn.manifold import TSNE
 from icd9 import ICD9
 
-code_i2s = pk.load(open("code.pkl","rb"))["code_i2s"]
+code_i2s = pk.load(open("data/code.pkl","rb"))["code_i2s"]
 code_count = len(code_i2s)
-tree = ICD9("icd9.json")
-
-import flask
-app = flask.Flask(__name__)
-
-@app.route('/')
-def index():
-   return flask.render_template("index.html")
+tree = ICD9("data/icd9.json")
 
 def compress(raw_emb):
     model = TSNE(n_components=2, random_state=0)
@@ -93,7 +86,3 @@ def output_json(epoch, raw_emb, output_path):
     with open(output_path, "w") as out:
         out.write("epoch = %d;\n" % epoch)
         out.write("emb = '%s';\n" % series)
-
-
-if __name__ == '__main__':
-   app.run(debug = True)

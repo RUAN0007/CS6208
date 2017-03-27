@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+ coding: utf-8 -*-
 # @Author: RUAN0007
 # @Date:   2017-02-21 19:33:44
 # @Last modified by:   RUAN0007

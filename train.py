@@ -20,25 +20,20 @@ def main():
     argv = sys.argv
     try:
         # Setup argument parser
-        parser = ArgumentParser(description="Train Alexnet over CIFAR10")
+        parser = ArgumentParser(description="Med2vec in Singa")
 
-        parser.add_argument('-p', '--port', default=9999, help='listening port')
-        parser.add_argument('-C', '--use_cpu', default=True)
-        parser.add_argument('--max_epoch', default=140)
+        parser.add_argument('--max_epoch', default=50)
 
-        parser.add_argument('--visit_file', default="claim.pkl", type=str, help='The path to the Pickled file containing visit information of patients')
+        parser.add_argument('--visit_file', default="data/claim.pkl", type=str, help='The path to the Pickled file containing visit information of patients')
         parser.add_argument('--n_input_codes',default=1050, type=int, help='The number of unique input medical codes')
 
-        parser.add_argument('--patient_file',default='patient.pkl', type=str, help='The path to the Pickled file containing demographic features of patients')
+        parser.add_argument('--patient_file',default='data/patient.pkl', type=str, help='The path to the Pickled file containing demographic features of patients')
         parser.add_argument('--n_demo_features', default=14, type=int, help='The number of demographic features')
         parser.add_argument('--code_size', type=int, default=64, help='The size of the code representation (default value: 64)')
         parser.add_argument('--visit_size', type=int, default=128, help='The size of the visit representation (default value: 128)')
 
-
         # Process arguments
         args = parser.parse_args()
-        port = args.port
-        use_cpu = args.use_cpu
 
         patient_file = args.patient_file
         visit_file = args.visit_file
@@ -47,11 +42,12 @@ def main():
         code_embed_size = args.code_size
         visit_embed_size = args.visit_size
 
+        use_cpu = True
         if use_cpu:
             print "runing with cpu"
             dev = device.get_default_device()
-        else:
-            print "runing with gpu"
+        # else:
+        #     print "runing with gpu"
             # dev = device.create_cuda_gpu()
 
         m,cdense = model.create(distinct_code_count,
@@ -60,24 +56,16 @@ def main():
                                 visit_embed_size,
                                 use_cpu)
 
-        claims,patients = load_data(visit_file, patient_file)
+        claim_raw,patient_raw = load_data(visit_file, patient_file)
 
-        max_claim_count = 20000
-        train_data, test_data = data.prepare(claims,
-                                             patients,
-                                             max_claim_count,
-                                             distinct_code_count,
-                                             demo_feature_count)
-
-        claim_train_losses, claim_test_losses, claim_train_recalls, claim_test_recalls, code_train_losses, code_test_losses, code_train_recalls, code_test_recalls = train(m, cdense,
-              train_data, test_data,
-              distinct_code_count,
-              demo_feature_count,
-              code_embed_size,
-              dev,
-              2, #args.max_epoch,
-              max_claim_count
-              )
+        (claim_train_losses, claim_test_losses, claim_train_recalls, claim_test_recalls, code_train_losses, code_test_losses, code_train_recalls, code_test_recalls) = train(m, cdense,
+                  claim_raw, patient_raw,
+                  distinct_code_count,
+                  demo_feature_count,
+                  code_embed_size,
+                  dev,
+                  51, #args.max_epoch,
+                  )
 
         stat = dict()
         stat["claim_train_loss"] = claim_train_losses
@@ -89,12 +77,10 @@ def main():
         stat["code_train_loss"] = code_train_losses
         stat["code_test_loss"] = code_test_losses
 
-        stat["code_train_recall"] = code_train_recalls
-        stat["code_test_recall"] = code_test_recalls
+        # stat["code_train_recall"] = code_train_recalls
+        # stat["code_test_recall"] = code_test_recalls
+
         pk.dump(stat, open("stat.pkl","wb"))
-
-
-
 
     except SystemExit:
         return
@@ -106,10 +92,10 @@ def main():
 
 def get_claim_lr(epoch):
     '''change learning rate as epoch goes up'''
-    return 0.001
+    return 0.00001
 
 def get_code_lr(epoch):
-    return 0.05
+    return 0.0001
 
 def load_data(claim_path, patient_path):
     '''Load claims and patients from local pickle file'''
@@ -175,15 +161,24 @@ def train_claim(epoch, claim_net, opt,
 
 
 def train(claim_net, cdense_w,
-          # train_data, test_data,
-          num_visit_patient,
+          claim_raw, patient_raw,
           distinct_code_count,demo_feature_count,
           code_embed_size,
           dev,
           max_epoch=50,
-          max_patient=5000,
+          max_patient=1700,
           claim_batch_size=100,
           code_batch_size=500 ):
+
+    print "Allocating Memory"
+    data_buffer = []
+    data_buffer.append(np.zeros((data.max_claim, distinct_code_count),dtype=np.float32))
+    data_buffer.append(np.zeros((data.max_claim, demo_feature_count),dtype=np.float32))
+    data_buffer.append(np.zeros((data.max_claim, distinct_code_count),dtype=np.int32))
+
+    data_buffer.append(np.zeros((data.max_code_pair, distinct_code_count),dtype=np.float32))
+    data_buffer.append(np.zeros(data.max_code_pair,dtype=np.int32))
+
 
     t_claims = tensor.Tensor((claim_batch_size, distinct_code_count), dev)
     t_patients = tensor.Tensor((claim_batch_size, demo_feature_count), dev)
@@ -206,8 +201,6 @@ def train(claim_net, cdense_w,
 
     gcw = tensor.Tensor()
     gcw.reset_like(cdense1.param_values()[0])
-    # print "cdense 1 w shape: ", cdense1.param_values()[0].shape #(1722, 64)
-    # print "cdense 2 w shape: ", cdense2.param_values()[0].shape #(64,1722)
 
     claim_train_losses = []
     claim_test_losses = []
@@ -221,17 +214,18 @@ def train(claim_net, cdense_w,
     code_train_recalls = []
     code_test_recalls = []
 
-    num_subepoch = num_visit_patient / max_patient
+    num_subepoch = len(claim_raw) / max_patient
+    # num_subepoch = 2
 
     print "Number of Subepoch: ", num_subepoch
 
-
     for epoch in range(max_epoch):
 
-        print "Epoch %d: " % (epoch + 1)
-        cdense_w.to_host()
-        visual.output_json(epoch, tensor.to_numpy(cdense_w),"emb_%d.json" % epoch)
-        cdense_w.to_device(dev)
+        print "\nEpoch %d: " % (epoch + 1)
+        if epoch % 5 == 0:
+            cdense_w.to_host()
+            visual.output_json(epoch, tensor.to_numpy(cdense_w),"embed/epoch%d.json" % epoch)
+            cdense_w.to_device(dev)
 
         epoch_train_code_loss = 0.0
         epoch_train_code_recall = 0.0
@@ -246,6 +240,7 @@ def train(claim_net, cdense_w,
         epoch_test_claim_recall = 0.0
 
         for subepoch in range(num_subepoch):
+            # print "\n  Subepoch %d: " % (subepoch + 1)
             sub_train_code_loss = 0.0
             sub_train_code_recall = 0.0
 
@@ -259,6 +254,13 @@ def train(claim_net, cdense_w,
             sub_test_claim_recall = 0.0
 
             # prepare train_data and test_data for subepoch
+            train_data, test_data = data.prepare(subepoch, max_patient,
+                                                 claim_raw, patient_raw,
+                                                 data_buffer,
+                                                 distinct_code_count,
+                                                 demo_feature_count)
+
+
             train_claims = train_data[0]
             train_patients = train_data[1]
             train_claim_labels = train_data[2]
@@ -278,20 +280,11 @@ def train(claim_net, cdense_w,
             num_train_code_batch = train_codes.shape[0] / code_batch_size
             num_test_code_batch = test_codes.shape[0] / code_batch_size
 
-
-
             claim_tensors = (t_claims, t_patients, t_labels)
             train_claim_data = (train_claims, train_patients, train_claim_labels)
             test_claim_data = (test_claims, test_patients, test_claim_labels)
 
             (sub_train_claim_loss, sub_test_claim_loss), (sub_train_claim_recall, sub_test_claim_recall) = train_claim(epoch, claim_net, opt, claim_tensors, train_claim_data, test_claim_data,claim_batch_size_info)
-
-
-            epoch_train_claim_loss += sub_train_claim_loss
-            epoch_train_claim_recall += sub_test_claim_loss
-
-            epoch_test_claim_loss += sub_train_claim_recall
-            epoch_test_claim_recall += sub_test_claim_recall
 
             for b in range(num_train_code_batch):
 
@@ -315,11 +308,11 @@ def train(claim_net, cdense_w,
                 cdense2out = cdense2.forward(model_pb2.kTrain, cdense1out)
 
                 lvalue = lossfun.forward(model_pb2.kTrain, cdense2out, t_code_labels)
-                recall = recallfun.evaluate(cdense2out, t_code_labels)
+                # recall = recallfun.evaluate(cdense2out, t_code_labels)
 
                 batch_code_loss = lvalue.l1()
                 sub_train_code_loss += batch_code_loss
-                sub_train_code_recall += recall
+                # sub_train_code_recall += recall
 
                 grad = lossfun.backward()
                 grad /= code_batch_size
@@ -341,8 +334,6 @@ def train(claim_net, cdense_w,
                 gcw += cgw1
                 gcw /= 2.0
 
-                info = 'Batch training code loss = %f' % (batch_code_loss)
-
                 opt.apply_with_lr(epoch, get_code_lr(epoch), gcw, cdense_w, "Fake Para")
 
                 # sys.exit()
@@ -355,37 +346,35 @@ def train(claim_net, cdense_w,
                 cdense1out = cdense1.forward(model_pb2.kEval, t_codes)
                 cdense2out = cdense2.forward(model_pb2.kEval, cdense1out)
                 lvalue = lossfun.forward(model_pb2.kEval, cdense2out, t_code_labels)
-                recall = recallfun.evaluate(cdense2out, t_code_labels)
+                # recall = recallfun.evaluate(cdense2out, t_code_labels)
 
                 sub_test_code_loss += lvalue.l1()
-                sub_test_code_recall += recall
+                # sub_test_code_recall += recall
 
             sub_train_code_loss = sub_train_code_loss / num_train_code_batch
-            sub_train_code_recall = sub_test_code_loss / num_train_code_batch
+            sub_train_code_recall = sub_train_code_recall / num_train_code_batch
 
-            sub_test_code_loss = sub_train_code_recall / num_test_code_batch
+            sub_test_code_loss = sub_test_code_loss / num_test_code_batch
             sub_test_code_recall = sub_test_code_recall / num_test_code_batch
-
-
 
             ###########Increment the epoch counter
             epoch_train_claim_loss += sub_train_claim_loss
-            epoch_train_claim_recall += sub_test_claim_loss
+            epoch_train_claim_recall += sub_train_claim_recall
 
-            epoch_test_claim_loss += sub_train_claim_recall
+            epoch_test_claim_loss += sub_test_claim_loss
             epoch_test_claim_recall += sub_test_claim_recall
 
             epoch_train_code_loss += sub_train_code_loss
-            epoch_train_code_recall += sub_test_code_loss
+            epoch_train_code_recall += sub_train_code_recall
 
-            epoch_test_code_loss += sub_train_code_recall
+            epoch_test_code_loss += sub_test_code_loss
             epoch_test_code_recall += sub_test_code_recall
 
             info = "\nVisit Loss: %5.3f (%5.3f), Recall: %5.3f (%5.3f)" % (sub_train_claim_loss, sub_test_claim_loss, sub_train_claim_recall, sub_test_claim_recall)
 
-            info += "\nCode Loss: %5.3f (%5.3f), Recall: %5.3f (%5.3f)" % (sub_train_code_loss, sub_test_code_loss, sub_train_code_recall, sub_test_code_recall)
+            info += "\tCode Loss: %5.3f (%5.3f), Recall: %5.3f (%5.3f)" % (sub_train_code_loss, sub_test_code_loss, sub_train_code_recall, sub_test_code_recall)
 
-            utils.update_progress(subepoch * 1.0 / num_subepoch, info)
+            utils.update_progress((subepoch + 1) * 1.0 / num_subepoch, info)
 
         # end of subepoch
 
@@ -401,10 +390,13 @@ def train(claim_net, cdense_w,
         code_train_recalls.append(epoch_train_code_recall / num_subepoch)
         code_test_recalls.append(epoch_test_code_recall / num_subepoch)
 
+        info = "\nVisit Loss: %5.3f (%5.3f), Recall: %5.3f (%5.3f)" % (claim_train_losses[-1], claim_test_losses[-1], claim_train_recalls[-1], claim_test_recalls[-1])
+
+        info += "\nCode Loss: %5.3f (%5.3f), Recall: %5.3f (%5.3f)" % (code_train_losses[-1], code_test_losses[-1], code_train_recalls[-1], code_test_recalls[-1])
+        print "Epoch %d:\n %s\n" % (epoch + 1, info)
     # end of epoch
 
     return claim_train_losses, claim_test_losses, claim_train_recalls, claim_test_recalls, code_train_losses, code_test_losses, code_train_recalls, code_test_recalls
-
 
 
 if __name__ == '__main__':
