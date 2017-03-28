@@ -14,6 +14,8 @@ import pickle as pk
 from sklearn.manifold import TSNE
 from icd9 import ICD9
 
+import matplotlib.pyplot as plt
+
 code_i2s = pk.load(open("data/code.pkl","rb"))["code_i2s"]
 code_count = len(code_i2s)
 tree = ICD9("data/icd9.json")
@@ -86,3 +88,47 @@ def output_json(epoch, raw_emb, output_path):
     with open(output_path, "w") as out:
         out.write("epoch = %d;\n" % epoch)
         out.write("emb = '%s';\n" % series)
+
+def plot(train_stat, test_stat, title):
+    '''Plotting train stat against epoch
+
+    Args:
+        train_stat: a list of train value indexed by epoch
+        test_stat: a list of test value indexed by epoch
+    '''
+    plt.xlabel('Epoch')
+    plt.title(title)
+    train_line, = plt.plot(train_stat, marker='o', linestyle='-', color='r', label='Train')
+    test_line, = plt.plot(test_stat, marker='x', linestyle='-', color='b', label='Test')
+    plt.legend(handles=[train_line, test_line])
+    plt.show(block=True)
+
+def main():
+    stat = pk.load(open("stat.pkl", 'rb'))
+    # plot(stat["claim_train_recall"],
+    #      stat["claim_test_recall"],
+    #      "Visit-level Recall By Epoch")
+
+    # stat["claim_train_recall"] = claim_train_recalls
+    # stat["claim_test_recall"] = claim_test_recalls
+
+    # stat["code_train_loss"] = code_train_losses
+    # stat["code_test_loss"] = code_test_losses
+    plt.subplot(121)
+    plt.xlabel('Sub-epoch')
+    plt.title("Visit-Level Loss")
+    train_line, = plt.plot(stat['sub_claim_train_loss'][0:50], marker='o', linestyle='-', color='r', label='Train')
+    test_line, = plt.plot(stat['sub_claim_test_loss'][0:50], marker='x', linestyle='-', color='b', label='Test')
+    plt.legend(handles=[train_line, test_line])
+
+    plt.subplot(122)
+    plt.xlabel('Sub-epoch')
+    plt.title("Visit-Level Recall")
+    train_line, = plt.plot(stat['sub_claim_train_recall'][0:50], marker='o', linestyle='-', color='r', label='Train')
+    test_line, = plt.plot(stat['sub_claim_train_recall'][0:50], marker='x', linestyle='-', color='b', label='Test')
+    plt.legend(handles=[train_line, test_line])
+
+    plt.show(block=True)
+
+if __name__ == "__main__":
+    main()
