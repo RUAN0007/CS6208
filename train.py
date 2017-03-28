@@ -58,16 +58,22 @@ def main():
 
         claim_raw,patient_raw = load_data(visit_file, patient_file)
 
-        (claim_train_losses, claim_test_losses, claim_train_recalls, claim_test_recalls, code_train_losses, code_test_losses, code_train_recalls, code_test_recalls) = train(m, cdense,
+        (sub_claim_train_losses, sub_claim_test_losses, sub_claim_train_recall, sub_claim_test_recall, claim_train_losses, claim_test_losses, claim_train_recalls, claim_test_recalls, code_train_losses, code_test_losses, code_train_recalls, code_test_recalls) = train(m, cdense,
                   claim_raw, patient_raw,
                   distinct_code_count,
                   demo_feature_count,
                   code_embed_size,
                   dev,
-                  51, #args.max_epoch,
+                  11, #args.max_epoch,
                   )
 
         stat = dict()
+        stat["sub_claim_train_loss"] = sub_claim_train_losses
+        stat["sub_claim_test_loss"] = sub_claim_test_losses
+
+        stat["sub_claim_train_recall"] = sub_claim_train_recall
+        stat["sub_claim_test_recall"] = sub_claim_test_recall
+
         stat["claim_train_loss"] = claim_train_losses
         stat["claim_test_loss"] = claim_test_losses
 
@@ -92,10 +98,10 @@ def main():
 
 def get_claim_lr(epoch):
     '''change learning rate as epoch goes up'''
-    return 0.00001
+    return 0.0001
 
 def get_code_lr(epoch):
-    return 0.0001
+    return 0.001
 
 def load_data(claim_path, patient_path):
     '''Load claims and patients from local pickle file'''
@@ -214,6 +220,12 @@ def train(claim_net, cdense_w,
     code_train_recalls = []
     code_test_recalls = []
 
+    sub_claim_train_losses = []
+    sub_claim_test_losses = []
+
+    sub_claim_train_recalls = []
+    sub_claim_test_recalls = []
+
     num_subepoch = len(claim_raw) / max_patient
     # num_subepoch = 2
 
@@ -224,7 +236,9 @@ def train(claim_net, cdense_w,
         print "\nEpoch %d: " % (epoch + 1)
         if epoch % 5 == 0:
             cdense_w.to_host()
-            visual.output_json(epoch, tensor.to_numpy(cdense_w),"embed/epoch%d.json" % epoch)
+            visual.output_json(epoch,
+                               tensor.to_numpy(tensor.relu(cdense_w)),
+                               "embed/epoch%d.json" % epoch)
             cdense_w.to_device(dev)
 
         epoch_train_code_loss = 0.0
@@ -358,6 +372,14 @@ def train(claim_net, cdense_w,
             sub_test_code_recall = sub_test_code_recall / num_test_code_batch
 
             ###########Increment the epoch counter
+
+            sub_claim_train_losses.append(sub_train_claim_loss)
+            sub_claim_test_losses.append(sub_test_claim_loss)
+
+            sub_claim_train_recalls.append(sub_train_claim_recall)
+            sub_claim_test_recalls.append(sub_test_claim_recall)
+
+
             epoch_train_claim_loss += sub_train_claim_loss
             epoch_train_claim_recall += sub_train_claim_recall
 
@@ -396,7 +418,7 @@ def train(claim_net, cdense_w,
         print "Epoch %d:\n %s\n" % (epoch + 1, info)
     # end of epoch
 
-    return claim_train_losses, claim_test_losses, claim_train_recalls, claim_test_recalls, code_train_losses, code_test_losses, code_train_recalls, code_test_recalls
+    return sub_claim_train_losses, sub_claim_test_losses, sub_claim_train_recalls, sub_claim_test_recalls, claim_train_losses, claim_test_losses, claim_train_recalls, claim_test_recalls, code_train_losses, code_test_losses, code_train_recalls, code_test_recalls
 
 
 if __name__ == '__main__':
